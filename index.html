@@ -143,12 +143,7 @@ function getShareData(){
  }
 }
 function buildShareLink(){
- try{
-  if(window.location.protocol==='file:') return '링크를 여기에 입력해 주세요';
-  return window.location.origin + window.location.pathname;
- }catch(e){
-  return '링크를 여기에 입력해 주세요';
- }
+ return 'https://tinyurl.com/CARATGAME01';
 }
 function buildTweetText(data){
  const link=buildShareLink();
