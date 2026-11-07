@@ -38,7 +38,7 @@ h1{color:#42476d;font-weight:900;font-size:clamp(30px,6.5vw,53px);line-height:1.
 .number-row{display:flex;align-items:center;justify-content:space-between;gap:12px}.number-row .stepper{display:flex;align-items:center;gap:5px;color:#7470a8}.stepper button{border:2px solid #dedee3;border-radius:14px;background:#f6f6f7;color:#7470a8;font-weight:900;min-width:43px;height:48px;font-size:24px}.stepper button:disabled{opacity:.34;cursor:default}.stepper output{border:2px solid #dedee3;border-radius:14px;background:#f6f6f7;min-width:110px;height:48px;display:flex;align-items:center;justify-content:center;font-size:20px}
 .dialog-action{width:100%;margin-top:77px;min-height:89px;border:0;border-radius:17px;background:#392929;color:white;font-size:clamp(23px,4.4vw,31px);font-weight:900;letter-spacing:-.06em}
 .summary-list{display:grid;gap:14px;text-align:left}.summary-row{display:grid;grid-template-columns:160px minmax(0,1fr);gap:8px;min-height:90px}.summary-key,.summary-val{border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;padding:12px;font-size:clamp(18px,3.9vw,28px);font-weight:900;letter-spacing:-.07em;line-height:1.3;text-align:center;word-break:keep-all}.summary-key{color:#7771aa}.summary-val{color:#323042}
-.notice .sub{margin-bottom:25px}.notice .dialog-action{margin-top:25px}
+.notice .sub{margin-bottom:25px;font-size:clamp(19px,3.7vw,26px);font-weight:800;line-height:1.5}.notice .dialog-action{margin-top:25px}
 body.modal-open{overflow:hidden}
 @media(max-width:560px){.shell{padding:63px 22px 45px}.header{margin-bottom:59px}.eyebrow{font-size:clamp(18px,5vw,24px)}h1{font-size:clamp(24px,6.6vw,35px)}.intro{font-size:clamp(12px,3.3vw,17px);margin-top:22px}.panel{min-height:365px;padding:38px 24px;border-radius:22px}.panel-name{font-size:17px}.pill{font-size:18px}.settings-grid{gap:10px;margin-top:28px}.setting-button{min-height:72px;font-size:clamp(16px,4.4vw,24px)}.primary{min-height:71px;margin-top:28px;font-size:clamp(19px,5.3vw,30px);border-radius:17px;border-width:3px}.secondary{min-height:64px;margin-top:12px;font-size:22px;border-radius:19px}.footer{font-size:12px;padding-top:105px}.overlay{padding:12px}.dialog{border-width:3px;border-radius:20px;padding:38px 18px 42px;max-height:calc(100svh - 24px)}.dialog h2{font-size:clamp(23px,6vw,34px)}.dialog .sub{font-size:15px;margin-bottom:36px}.option-list{gap:10px}.choice{min-height:65px;padding:13px 17px;font-size:clamp(15px,4vw,21px);border-width:2px;border-radius:13px}.option-grid{gap:10px}.option-grid .choice{min-height:65px}.number-row{gap:6px}.stepper button{min-width:32px;width:32px;height:42px;font-size:20px;border-radius:11px}.stepper output{min-width:76px;height:42px;font-size:14px}.dialog-action{min-height:70px;margin-top:47px;font-size:24px;border-radius:14px}.summary-list{gap:10px}.summary-row{grid-template-columns:34% 1fr;min-height:68px;gap:7px}.summary-key,.summary-val{font-size:clamp(15px,4vw,21px);border-radius:13px;padding:8px}}
 @media(max-width:355px){.shell{padding-left:12px;padding-right:12px}h1{font-size:23px}.panel{padding-left:15px;padding-right:15px}.setting-button{font-size:15px}.dialog{padding-left:12px;padding-right:12px}.choice{font-size:14px}.number-row{flex-wrap:wrap}.stepper{margin-left:auto}}
@@ -87,7 +87,7 @@ body.modal-open{overflow:hidden}
   const b=document.createElement('button');b.type='button';b.className='choice '+extra;b.textContent=label;b.setAttribute('aria-pressed',String(pressed));b.addEventListener('click',action);return b;
  }
  function renderModal(){
-  body.replaceChildren();overlay.querySelector('.dialog').classList.toggle('notice',modal==='notice');
+  body.replaceChildren();overlay.querySelector('.dialog').classList.toggle('notice',modal==='notice'||modal==='defaultsNotice');
   if(modal==='songs'){
    title.textContent='포함되는 곡 설정';sub.textContent='게임 진행 시 포함되는 곡을 설정해보세요!';
    const list=document.createElement('div');list.className='option-list';
@@ -125,6 +125,8 @@ body.modal-open{overflow:hidden}
    body.appendChild(list);confirm.textContent='진짜 게임 시작하기';
   }else if(modal==='notice'){
    title.textContent='안내';sub.textContent='완성 전까지 조금만 더 기다려주세요!';confirm.textContent='확인';
+  }else if(modal==='defaultsNotice'){
+   title.textContent='안내';sub.textContent='기본 설정으로 세팅 완료!';confirm.textContent='확인';
   }
  }
  confirm.addEventListener('click',()=>{
@@ -133,7 +135,7 @@ body.modal-open{overflow:hidden}
  });
  document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>open(b.dataset.open)));
  $('review').addEventListener('click',()=>open('review'));
- $('defaults').addEventListener('click',()=>{settings=DEFAULTS();open('notice')});
+ $('defaults').addEventListener('click',()=>{settings=DEFAULTS();open('defaultsNotice')});
  overlay.addEventListener('click',e=>{if(e.target===overlay)close()});
  document.addEventListener('keydown',e=>{if(overlay.hidden)return;if(e.key==='Escape'){e.preventDefault();close()}if(e.key==='Tab'){const els=[...overlay.querySelectorAll('button:not(:disabled)')];if(!els.length)return;const first=els[0],last=els[els.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
 })();
