@@ -87,11 +87,11 @@ footer{margin-top:auto;padding-top:135px;color:#a6a2b4;font-size:16px;text-align
  function render(){
   const ready=current===1;
   page.textContent=current+' / '+max;
-  title.textContent=ready?'타이밍 챌린지':'준비중!';
-  desc.textContent=ready?'목표된 시간에 맞춰 정확하게 버튼을 눌러라!':'아직 구현되지 않았어요!';
-  details.innerHTML=ready?'<p>'+availableDetails+'</p>':'<p>현재 준비중인 게임입니다!<br>어떤 게임이 수록될까요?</p>';
-  play.textContent=ready?'게임 시작':'조금만 더 기다려주세요!';
-  if(ready){play.href='./timing/';play.removeAttribute('aria-disabled');play.tabIndex=0}
+  title.textContent=current===1?'타이밍 챌린지':current===2?'제목 알아내기':'준비중!';
+  desc.textContent=current===1?'목표된 시간에 맞춰 정확하게 버튼을 눌러라!':current===2?'랜덤 배치된 가사를 보고 곡 제목을 알아내자!':'아직 구현되지 않았어요!';
+  details.innerHTML=current===1?'<p>'+availableDetails+'</p>':current===2?'<p>타이틀곡 가사가 랜덤으로 배치되어 있다?<br>랜덤으로 배치된 가사 속에서 곡 제목을 알아내자!<br>나는 얼마나 세븐틴 곡 가사를 자세히 알고 있을까?</p>':'<p>현재 준비중인 게임입니다!<br>어떤 게임이 수록될까요?</p>';
+  play.textContent=current<=2?'게임 시작':'조금만 더 기다려주세요!';
+  if(current<=2){play.href=current===1?'./timing/':'./lyrics/';play.removeAttribute('aria-disabled');play.tabIndex=0}
   else{play.removeAttribute('href');play.setAttribute('aria-disabled','true');play.tabIndex=-1}
   prev.disabled=current===1;
   next.disabled=current===max;

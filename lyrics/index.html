@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#d4d7e5">
+<title>세븐틴 곡 제목 알아내기 | SVTCHIVE</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:#35314f;font-synthesis:none}
+*{box-sizing:border-box}
+html{min-height:100%;background:#e8cccf}
+body{margin:0;min-height:100svh;background:linear-gradient(172deg,#cfd6e6 0%,#d3d3e1 27%,#ded0da 65%,#e9cdd0 100%);background-attachment:fixed}
+button,a{font:inherit;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button{cursor:pointer}button:focus-visible,a:focus-visible{outline:3px solid #575b91;outline-offset:4px}
+.shell{max-width:780px;min-height:100svh;margin:auto;padding:clamp(65px,7.5vw,106px) 24px 80px;display:flex;flex-direction:column;align-items:center}
+.header{width:100%;text-align:center;margin-bottom:clamp(52px,7.5vw,78px)}
+.eyebrow{color:#a2a9c4;font-weight:850;font-size:clamp(21px,4vw,34px);letter-spacing:-.06em;margin:0 0 10px}
+h1{color:#42476d;font-weight:900;font-size:clamp(30px,6.5vw,53px);line-height:1.15;letter-spacing:-.077em;white-space:nowrap;margin:0}
+.intro{font-weight:740;color:#a4a9c2;font-size:clamp(15px,3vw,23px);line-height:1.35;letter-spacing:-.05em;margin:27px 0 0}
+.content{width:min(100%,576px)}
+.panel{min-height:440px;padding:57px 44px 54px;border-radius:25px;background:rgba(122,117,132,.15);text-align:center;display:flex;flex-direction:column;align-items:center}
+.panel-name{color:#9390a5;font-weight:800;font-size:clamp(17px,3vw,23px);letter-spacing:-.055em;margin:0 0 14px}
+.pill{background:#fff;color:#aa889c;border-radius:99px;font-size:clamp(17px,3.2vw,24px);font-weight:850;letter-spacing:-.04em;padding:8px 24px}
+.settings-grid{width:100%;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:38px}
+.setting-button{min-height:89px;border:0;border-radius:16px;background:#fff;color:#815b78;font-size:clamp(18px,3.5vw,29px);letter-spacing:-.07em;font-weight:900;padding:12px 8px;line-height:1.25}
+.setting-button:active,.primary:active,.secondary:active{transform:scale(.985)}
+.primary{display:flex;align-items:center;justify-content:center;width:100%;min-height:95px;background:#fff;border:4px solid rgba(125,110,127,.43);border-radius:20px;color:#7871aa;font-weight:900;font-size:clamp(22px,4.5vw,38px);letter-spacing:-.07em;margin-top:35px;line-height:1.2;padding:10px}
+.secondary{display:flex;align-items:center;justify-content:center;width:100%;min-height:82px;background:rgba(111,108,126,.13);border:0;border-radius:25px;color:#60618f;font-size:clamp(21px,3.7vw,30px);font-weight:900;letter-spacing:-.06em;margin-top:19px;text-decoration:none}
+.footer{margin-top:auto;padding-top:170px;color:#a6a4b4;font-size:16px;font-weight:600;text-align:center;letter-spacing:-.04em}
+.overlay[hidden]{display:none}
+.overlay{position:fixed;inset:0;z-index:50;background:rgba(43,35,49,.14);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);display:flex;justify-content:center;align-items:center;padding:20px;overflow-y:auto}
+.dialog{width:min(100%,640px);max-height:calc(100svh - 35px);overflow-y:auto;background:rgba(193,184,195,.76);border:4px solid #fff;border-radius:25px;padding:clamp(34px,7vw,71px) clamp(24px,8vw,74px) clamp(40px,7vw,76px);text-align:center}
+.dialog h2{font-size:clamp(26px,5.2vw,42px);color:#606f9d;font-weight:900;letter-spacing:-.075em;line-height:1.18;margin:0;word-break:keep-all}
+.dialog .sub{font-size:clamp(14px,2.8vw,21px);color:#687699;font-weight:750;line-height:1.4;letter-spacing:-.05em;margin:11px 0 56px}
+.option-list{display:grid;gap:15px;text-align:left}.choice{width:100%;min-height:88px;border:3px solid transparent;border-radius:17px;background:#fff;color:#7470a8;text-align:left;padding:16px 29px;font-size:clamp(17px,3.8vw,27px);font-weight:900;letter-spacing:-.07em;line-height:1.25;word-break:keep-all}.choice[aria-pressed="true"]{background:#f5f3fb;border-color:#7771a9;color:#433b85}
+.option-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}.option-grid .choice{text-align:center;padding:13px 8px}
+.number-row{display:flex;align-items:center;justify-content:space-between;gap:12px}.number-row .stepper{display:flex;align-items:center;gap:5px;color:#7470a8}.stepper button{border:2px solid #dedee3;border-radius:14px;background:#f6f6f7;color:#7470a8;font-weight:900;min-width:43px;height:48px;font-size:24px}.stepper button:disabled{opacity:.34;cursor:default}.stepper output{border:2px solid #dedee3;border-radius:14px;background:#f6f6f7;min-width:110px;height:48px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.dialog-action{width:100%;margin-top:77px;min-height:89px;border:0;border-radius:17px;background:#392929;color:white;font-size:clamp(23px,4.4vw,31px);font-weight:900;letter-spacing:-.06em}
+.summary-list{display:grid;gap:14px;text-align:left}.summary-row{display:grid;grid-template-columns:160px minmax(0,1fr);gap:8px;min-height:90px}.summary-key,.summary-val{border-radius:16px;background:#fff;display:flex;align-items:center;justify-content:center;padding:12px;font-size:clamp(18px,3.9vw,28px);font-weight:900;letter-spacing:-.07em;line-height:1.3;text-align:center;word-break:keep-all}.summary-key{color:#7771aa}.summary-val{color:#323042}
+.notice .sub{margin-bottom:25px}.notice .dialog-action{margin-top:25px}
+body.modal-open{overflow:hidden}
+@media(max-width:560px){.shell{padding:63px 22px 45px}.header{margin-bottom:59px}.eyebrow{font-size:clamp(18px,5vw,24px)}h1{font-size:clamp(24px,6.6vw,35px)}.intro{font-size:clamp(12px,3.3vw,17px);margin-top:22px}.panel{min-height:365px;padding:38px 24px;border-radius:22px}.panel-name{font-size:17px}.pill{font-size:18px}.settings-grid{gap:10px;margin-top:28px}.setting-button{min-height:72px;font-size:clamp(16px,4.4vw,24px)}.primary{min-height:71px;margin-top:28px;font-size:clamp(19px,5.3vw,30px);border-radius:17px;border-width:3px}.secondary{min-height:64px;margin-top:12px;font-size:22px;border-radius:19px}.footer{font-size:12px;padding-top:105px}.overlay{padding:12px}.dialog{border-width:3px;border-radius:20px;padding:38px 18px 42px;max-height:calc(100svh - 24px)}.dialog h2{font-size:clamp(23px,6vw,34px)}.dialog .sub{font-size:15px;margin-bottom:36px}.option-list{gap:10px}.choice{min-height:65px;padding:13px 17px;font-size:clamp(15px,4vw,21px);border-width:2px;border-radius:13px}.option-grid{gap:10px}.option-grid .choice{min-height:65px}.number-row{gap:6px}.stepper button{min-width:32px;width:32px;height:42px;font-size:20px;border-radius:11px}.stepper output{min-width:76px;height:42px;font-size:14px}.dialog-action{min-height:70px;margin-top:47px;font-size:24px;border-radius:14px}.summary-list{gap:10px}.summary-row{grid-template-columns:34% 1fr;min-height:68px;gap:7px}.summary-key,.summary-val{font-size:clamp(15px,4vw,21px);border-radius:13px;padding:8px}}
+@media(max-width:355px){.shell{padding-left:12px;padding-right:12px}h1{font-size:23px}.panel{padding-left:15px;padding-right:15px}.setting-button{font-size:15px}.dialog{padding-left:12px;padding-right:12px}.choice{font-size:14px}.number-row{flex-wrap:wrap}.stepper{margin-left:auto}}
+@media(prefers-reduced-motion:no-preference){.choice,.setting-button,.primary,.secondary,.dialog-action{transition:transform .12s,background .15s}}
+</style>
+</head>
+<body>
+<main class="shell">
+<header class="header"><p class="eyebrow">이건 무슨 노래의 가사일까?</p><h1>세븐틴 곡 제목 알아내기</h1><p class="intro">랜덤으로 배치된 가사 한 소절을 보고 제목을 알아내보세요!<br>캐럿들은 과연 세븐틴 가사를 어디까지 자세히 알고 있을까요?</p></header>
+<div class="content">
+ <section class="panel" aria-label="게임 시작 전 설정">
+  <p class="panel-name">세븐틴 곡 제목 알아내기</p><div class="pill">게임 설정</div>
+  <div class="settings-grid">
+   <button class="setting-button" type="button" data-open="songs">포함되는 곡 설정</button>
+   <button class="setting-button" type="button" data-open="rounds">라운드 수 설정</button>
+   <button class="setting-button" type="button" data-open="time">제한시간 설정</button>
+   <button class="setting-button" type="button" id="defaults">기본 설정으로</button>
+  </div>
+ </section>
+ <button id="review" type="button" class="primary">설정 확인 후 게임 시작하기</button>
+ <a class="secondary" href="../">메인화면으로 돌아가기</a>
+</div>
+<footer class="footer">SVTCHIVE @SVTCHIVE0526</footer>
+</main>
+<div class="overlay" id="overlay" hidden>
+ <section class="dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-sub">
+  <h2 id="modal-title"></h2><p class="sub" id="modal-sub"></p>
+  <div id="modal-body"></div>
+  <button class="dialog-action" id="modal-confirm" type="button"></button>
+ </section>
+</div>
+<script>
+(()=>{'use strict';
+ const $=id=>document.getElementById(id);
+ const overlay=$('overlay'),title=$('modal-title'),sub=$('modal-sub'),body=$('modal-body'),confirm=$('modal-confirm');
+ const DEFAULTS=()=>({song:'all',roundType:'all',fixedRounds:13,timeType:'fixed',fixedTime:20});
+ let settings=DEFAULTS(),modal=null,focusBefore=null,resolved=null;
+ const names={korean:'한국 타이틀곡만',adapted:'한국 타이틀 + 번안곡',all:'타이틀곡 모두'};
+ const songOptions=[['korean','한국 타이틀곡만'],['adapted','한국 타이틀곡 + 일본 타이틀은 번안곡만'],['all','타이틀곡이면 모두']];
+ function open(kind){
+  focusBefore=document.activeElement;modal=kind;overlay.hidden=false;document.body.classList.add('modal-open');
+  renderModal();confirm.focus();
+ }
+ function close(){overlay.hidden=true;document.body.classList.remove('modal-open');modal=null;body.replaceChildren();if(focusBefore&&focusBefore.focus)focusBefore.focus()}
+ function choice(label,pressed,action,extra=''){
+  const b=document.createElement('button');b.type='button';b.className='choice '+extra;b.textContent=label;b.setAttribute('aria-pressed',String(pressed));b.addEventListener('click',action);return b;
+ }
+ function renderModal(){
+  body.replaceChildren();overlay.querySelector('.dialog').classList.toggle('notice',modal==='notice');
+  if(modal==='songs'){
+   title.textContent='포함되는 곡 설정';sub.textContent='게임 진행 시 포함되는 곡을 설정해보세요!';
+   const list=document.createElement('div');list.className='option-list';
+   songOptions.forEach(([value,label])=>list.appendChild(choice(label,settings.song===value,()=>{settings.song=value;renderModal()})));
+   body.appendChild(list);confirm.textContent='설정 완료하기';
+  }else if(modal==='rounds'){
+   title.textContent='라운드 수 설정';sub.textContent='게임 진행 라운드 수를 설정해보세요!';
+   const list=document.createElement('div');list.className='option-list';
+   list.appendChild(choice('모든 라운드 *13라운드',settings.roundType==='all',()=>{settings.roundType='all';renderModal()}));
+   const row=document.createElement('div');row.className='choice number-row';row.setAttribute('role','group');row.setAttribute('aria-label','지정 라운드');
+   const label=document.createElement('span');label.textContent='지정 라운드';
+   const controls=document.createElement('div');controls.className='stepper';
+   const minus=document.createElement('button');minus.type='button';minus.textContent='−';minus.setAttribute('aria-label','라운드 줄이기');minus.disabled=settings.fixedRounds<=1;
+   const count=document.createElement('output');count.textContent=settings.fixedRounds+'라운드';
+   const plus=document.createElement('button');plus.type='button';plus.textContent='+';plus.setAttribute('aria-label','라운드 늘리기');plus.disabled=settings.fixedRounds>=13;
+   minus.addEventListener('click',()=>{settings.roundType='fixed';settings.fixedRounds=Math.max(1,settings.fixedRounds-1);renderModal()});
+   plus.addEventListener('click',()=>{settings.roundType='fixed';settings.fixedRounds=Math.min(13,settings.fixedRounds+1);renderModal()});
+   row.addEventListener('click',event=>{if(event.target===row||event.target===label){settings.roundType='fixed';renderModal()}});
+   row.style.borderColor=settings.roundType==='fixed'?'#7771a9':'transparent';
+   controls.append(minus,count,plus);row.append(label,controls);list.appendChild(row);
+   list.appendChild(choice('랜덤 라운드 *1~13라운드 중 랜덤',settings.roundType==='random',()=>{settings.roundType='random';renderModal()}));
+   body.appendChild(list);confirm.textContent='설정 완료하기';
+  }else if(modal==='time'){
+   title.textContent='제한시간 설정';sub.textContent='라운드 당 제한시간을 설정해보세요!';
+   const grid=document.createElement('div');grid.className='option-grid';
+   [15,20,25,30].forEach(n=>grid.appendChild(choice(n+'초',settings.timeType==='fixed'&&settings.fixedTime===n,()=>{settings.timeType='fixed';settings.fixedTime=n;renderModal()})));
+   body.appendChild(grid);const list=document.createElement('div');list.className='option-list';list.style.marginTop='15px';
+   list.appendChild(choice('랜덤 시간 *15~30초 사이',settings.timeType==='random',()=>{settings.timeType='random';renderModal()}));body.appendChild(list);confirm.textContent='설정 완료하기';
+  }else if(modal==='review'){
+   title.textContent='설정 확인 후 게임 시작하기';sub.textContent='게임 시작 전 설정을 확인해보세요!';
+   resolved={songs:names[settings.song],rounds:settings.roundType==='all'?13:settings.roundType==='fixed'?settings.fixedRounds:1+Math.floor(Math.random()*13),time:settings.timeType==='fixed'?settings.fixedTime:15+Math.floor(Math.random()*16)};
+   const rows=[['포함되는 곡',resolved.songs],['라운드 수',resolved.rounds+'라운드'],['제한시간',resolved.time+'초']];
+   const list=document.createElement('div');list.className='summary-list';
+   rows.forEach(([k,v])=>{const row=document.createElement('div');row.className='summary-row';const key=document.createElement('div');key.className='summary-key';key.textContent=k;const val=document.createElement('div');val.className='summary-val';val.textContent=v;row.append(key,val);list.appendChild(row)});
+   body.appendChild(list);confirm.textContent='진짜 게임 시작하기';
+  }else if(modal==='notice'){
+   title.textContent='안내';sub.textContent='완성 전까지 조금만 더 기다려주세요!';confirm.textContent='확인';
+  }
+ }
+ confirm.addEventListener('click',()=>{
+  if(modal==='review'){modal='notice';renderModal();confirm.focus();return}
+  close();
+ });
+ document.querySelectorAll('[data-open]').forEach(b=>b.addEventListener('click',()=>open(b.dataset.open)));
+ $('review').addEventListener('click',()=>open('review'));
+ $('defaults').addEventListener('click',()=>{settings=DEFAULTS();open('notice')});
+ overlay.addEventListener('click',e=>{if(e.target===overlay)close()});
+ document.addEventListener('keydown',e=>{if(overlay.hidden)return;if(e.key==='Escape'){e.preventDefault();close()}if(e.key==='Tab'){const els=[...overlay.querySelectorAll('button:not(:disabled)')];if(!els.length)return;const first=els[0],last=els[els.length-1];if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}});
+})();
+</script>
+</body>
+</html>
