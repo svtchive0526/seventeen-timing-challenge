@@ -1,1279 +1,852 @@
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#cdd4e4">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#e5cacc">
 <title>언제일까? | SVTCHIVE</title>
-
-<link rel="stylesheet"
-href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 <style>
-:root {
-  --navy:#45496f;
-  --blue:#5d6c99;
-  --lightblue:#a0a7c1;
-  --plum:#794e6c;
-  --pink:#b08d9f;
-  --brown:#743d56;
-  --panel:rgba(115,105,124,.13);
-  --border:#b9acba;
-}
-
-* {box-sizing:border-box}
-html {min-height:100%}
-
-body {
-  margin:0;
-  min-height:100vh;
-  background:linear-gradient(
-    180deg,
-    #cdd5e5 0%,
-    #d8d1dd 47%,
-    #e8cfd1 100%
-  );
-  background-attachment:fixed;
-  font-family:Pretendard,-apple-system,
-    BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;
+:root{
+  font-family:Pretendard,-apple-system,BlinkMacSystemFont,sans-serif;
   letter-spacing:-.04em;
-  font-weight:750;
-  -webkit-font-smoothing:antialiased;
+  color:#45486e;
+  font-synthesis:none;
 }
-
-button {
-  font:inherit;
-  letter-spacing:inherit;
-  cursor:pointer;
+*{box-sizing:border-box}
+html{min-height:100%;background:#e2cdd1}
+body{
+  margin:0;min-height:100svh;
+  background:linear-gradient(169deg,#e7c9ca 0%,#e2cdd1 34%,#d9d0dc 68%,#ccd5e7 100%);
+  background-attachment:fixed;
 }
-
-button:disabled {cursor:not-allowed}
-
-button:focus-visible {
-  outline:3px solid var(--blue);
-  outline-offset:3px;
-}
-
-[hidden] {display:none!important}
-
-.app {
-  width:min(100%,620px);
+button,a{font:inherit;letter-spacing:inherit;-webkit-tap-highlight-color:transparent}
+button{cursor:pointer}
+button:disabled{cursor:not-allowed;opacity:.35}
+button:focus-visible,a:focus-visible{outline:3px solid #7770a7;outline-offset:3px}
+.shell{
+  width:min(100%,780px);
+  min-height:100svh;
   margin:auto;
-  padding:105px 20px 65px;
+  padding:clamp(65px,8vw,110px) 24px 70px;
 }
-
-.header {
-  text-align:center;
-  margin-bottom:78px;
+header{text-align:center;margin-bottom:75px}
+.eyebrow{
+  font-size:clamp(19px,4vw,35px);
+  color:#a0a7c3;font-weight:800;margin:0 0 9px;
 }
-
-.eyebrow {
-  margin:0;
-  color:var(--lightblue);
-  font-size:clamp(18px,4.3vw,29px);
-  font-weight:800;
-  line-height:1.3;
+h1{
+  font-size:clamp(29px,6.3vw,53px);
+  font-weight:900;color:#45486e;
+  margin:0;line-height:1.15;
 }
-
-h1 {
-  margin:8px 0 0;
-  color:var(--navy);
-  font-size:clamp(30px,7vw,47px);
-  font-weight:900;
-  line-height:1.15;
-  white-space:nowrap;
+.subtitle{
+  font-size:clamp(14px,2.7vw,23px);
+  color:#a0a7c3;font-weight:750;
+  line-height:1.35;margin:27px 0 0;
 }
-
-.description {
-  margin:27px auto 0;
-  color:var(--lightblue);
-  font-size:clamp(12px,3.2vw,17px);
-  line-height:1.35;
-  font-weight:750;
-  word-break:keep-all;
-}
-
-.screen {display:none}
-.screen.active {display:block}
-
-.settings-panel {
-  padding:44px 25px;
-  border-radius:24px;
-  background:var(--panel);
+.content{width:100%;max-width:576px;margin:auto}
+.panel{
+  background:rgba(125,119,132,.14);
+  border-radius:25px;
+  padding:42px 48px;
   text-align:center;
 }
-
-.panel-caption {
-  display:table;
-  margin:0 auto 24px;
-  padding:12px 30px;
-  border-radius:100px;
-  background:white;
-  color:var(--pink);
-  font-size:clamp(16px,3.8vw,23px);
-  font-weight:850;
+.pill{
+  display:table;margin:0 auto 25px;
+  padding:10px 36px;border-radius:99px;
+  background:#fff;color:#a78594;
+  font-size:23px;font-weight:850;
 }
-
-.setting-list {
-  display:grid;
-  gap:9px;
-  width:85%;
-  margin:auto;
-}
-
-.setting-button {
-  width:100%;
-  min-height:61px;
-  padding:10px;
-  border:1px solid #c9b4c0;
-  border-radius:13px;
-  background:white;
-  color:var(--plum);
-  font-size:clamp(16px,3.8vw,23px);
-  font-weight:850;
-}
-
-.main-button {
-  display:block;
-  width:100%;
-  min-height:85px;
-  margin-top:19px;
-  padding:12px;
-  border:3px solid var(--border);
-  border-radius:19px;
-  background:white;
-  color:#7770a8;
-  font-size:clamp(23px,5.6vw,35px);
+.menu-btn,.option,.primary,.secondary{
+  display:flex;align-items:center;justify-content:center;
+  width:100%;border-radius:15px;
+  text-align:center;text-decoration:none;
   font-weight:900;
 }
-
-.sub-button {
-  display:block;
-  width:100%;
-  min-height:76px;
+.menu-btn{
+  min-height:64px;background:white;
+  border:2px solid #c7b5c1;
+  color:#80566f;font-size:25px;
+  margin:9px 0;
+}
+.primary{
+  min-height:95px;background:#fff;
+  border:4px solid #b9acba;
+  color:#7770a7;font-size:clamp(26px,5vw,39px);
+  margin-top:34px;
+}
+.secondary{
+  min-height:80px;background:rgba(125,119,132,.13);
+  border:0;color:#60618f;
+  font-size:clamp(20px,4vw,29px);
   margin-top:20px;
-  padding:12px;
-  border:0;
-  border-radius:20px;
-  background:rgba(137,110,124,.13);
-  color:#626794;
-  font-size:clamp(20px,4.4vw,28px);
-  font-weight:850;
 }
-
-.main-button:active,
-.sub-button:active,
-.option:active,
-.setting-button:active {
-  transform:scale(.99);
+.menu-btn:active,.option:active,.primary:active,.secondary:active{transform:scale(.99)}
+.screen{display:none}
+.screen.active{display:block}
+.overlay{
+  position:fixed;inset:0;z-index:20;
+  display:none;align-items:center;justify-content:center;
+  background:rgba(47,43,59,.15);
+  padding:22px;
 }
-
-/* 설정 팝업 */
-
-.overlay {
-  position:fixed;
-  inset:0;
-  z-index:50;
-  display:none;
-  justify-content:center;
-  align-items:center;
-  padding:20px;
-  background:rgba(100,89,108,.035);
-}
-
-.overlay.open {display:flex}
-
-.modal {
+.overlay.active{display:flex}
+.modal{
   width:min(100%,480px);
-  max-height:90dvh;
-  overflow-y:auto;
-  padding:47px 38px 39px;
-  border:3px solid white;
-  border-radius:23px;
-  background:linear-gradient(
-    160deg,
-    rgba(182,176,187,.97),
-    rgba(212,192,200,.97)
-  );
+  padding:42px 34px;
+  border:4px solid white;
+  border-radius:25px;
+  background:rgba(199,190,199,.97);
   text-align:center;
 }
-
-.modal h2 {
-  margin:0 0 31px;
-  color:#743c57;
-  font-size:clamp(18px,4.1vw,24px);
-  font-weight:900;
+.modal h2{
+  color:#743c54;font-size:25px;
+  font-weight:900;margin:8px 0 30px;
 }
-
-.options {
-  display:grid;
+.option{
+  min-height:70px;
+  background:white;border:2px solid transparent;
+  color:#596c9b;font-size:24px;
+  margin:8px 0;
+}
+.option.selected{border-color:#7770a7;background:#f4f1fa}
+.option:disabled{opacity:.28}
+.option.confirm{
+  margin-top:20px;
+  background:#f4f0f5;
+  border:2px solid #b9acba;
+  color:#743c54;
+}
+.counter{
+  display:flex;align-items:center;justify-content:center;
+  gap:7px;
+  min-height:70px;background:white;
+  border-radius:13px;margin:8px 0;
+}
+.counter button,.counter span{
+  border:2px solid #dedee1;border-radius:13px;
+  background:#fff;color:#596c9b;
+  font-size:22px;font-weight:850;
+  min-height:44px;
+}
+.counter button{width:44px}
+.counter span{padding:9px 22px;min-width:120px}
+.rules{
+  font-size:clamp(14px,2.8vw,21px);
+  font-weight:750;color:#9c8da1;
+  line-height:2.05;
+}
+.rules p{margin:0 0 5px}
+.status{
+  display:flex;align-items:center;justify-content:center;
   gap:8px;
+  background:rgba(125,119,132,.14);
+  padding:27px 14px;border-radius:25px;
+  margin-bottom:17px;
 }
-
-.option {
+.status span{
+  flex:1;background:#fff;
+  border-radius:13px;
+  padding:11px 5px;
+  font-size:clamp(15px,3vw,23px);
+  font-weight:850;
+  color:#a78594;text-align:center;
+}
+.status span:last-child{color:#8792aa}
+.status i{
+  width:2px;height:29px;background:#a9a3b3;
+  margin:0 6px;
+}
+.photo-box,.answer-box,.result-box{
   width:100%;
-  min-height:70px;
-  padding:10px;
-  border:2px solid transparent;
-  border-radius:12px;
-  background:white;
-  color:var(--blue);
-  font-size:clamp(17px,3.8vw,23px);
-  font-weight:850;
-}
-
-.option.selected {
-  border-color:#b7a5b8;
-  color:var(--brown);
-  background:#faf6fa;
-}
-
-.option:disabled {opacity:.28}
-
-.modal-confirm {
-  width:100%;
-  min-height:64px;
-  margin-top:21px;
-  border:2px solid #b8a8b9;
-  border-radius:12px;
-  background:#f7f2f7;
-  color:var(--brown);
-  font-size:clamp(18px,4vw,23px);
-  font-weight:850;
-}
-
-.stepper {
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:6px;
-  min-height:70px;
-  border:2px solid transparent;
-  border-radius:12px;
-  background:white;
-}
-
-.stepper.selected {
-  border-color:#b7a5b8;
-  background:#faf6fa;
-}
-
-.stepper button,
-.stepper output {
-  min-height:43px;
-  display:grid;
-  place-items:center;
-  border:2px solid #d9d9df;
-  border-radius:11px;
-  background:white;
-  color:var(--blue);
-  font-size:20px;
-  font-weight:850;
-}
-
-.stepper button {width:44px}
-
-.stepper output {
-  min-width:120px;
-  padding:0 12px;
-}
-
-.stepper button:disabled {opacity:.3}
-
-/* 규칙 화면 */
-
-.rule-panel {
-  background:var(--panel);
-  border-radius:23px;
-  padding:65px 20px;
-  text-align:center;
-}
-
-.rules {
-  display:grid;
-  gap:16px;
-  margin-top:30px;
-  color:#9c8ea4;
-  font-size:clamp(14px,3.2vw,19px);
-  line-height:1.45;
-  font-weight:750;
-  word-break:keep-all;
-}
-
-.rules p {margin:0}
-
-.rule-title {
-  display:table;
-  margin:auto;
-  max-width:100%;
-  padding:12px 30px;
-  border-radius:100px;
-  background:white;
-  color:var(--pink);
-  font-size:clamp(17px,4vw,23px);
-  font-weight:850;
-}
-
-.rule-actions {margin-top:35px}
-
-/* 게임 실행 화면 */
-
-.game-status {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:10px;
-  padding:25px 20px;
-  margin-bottom:16px;
-  border-radius:23px;
-  background:var(--panel);
-}
-
-.status-chip {
-  flex:1;
-  min-width:0;
-  padding:12px 6px;
-  border-radius:11px;
-  background:white;
-  color:var(--pink);
-  text-align:center;
-  font-size:clamp(14px,3.6vw,22px);
-  font-weight:850;
-}
-
-.status-chip.timer {color:#8490a8}
-.status-divider {color:#a69aaa}
-
-.game-panel {
-  min-height:440px;
-  padding:40px 24px;
-  border:3px solid white;
-  border-radius:23px;
-  background:var(--panel);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:26px;
-  text-align:center;
-}
-
-.game-heading {
-  margin:0;
-  color:#49333f;
-  font-size:clamp(23px,5.4vw,34px);
-  font-weight:900;
-}
-
-/* 실제 컨셉 포토 */
-
-.concept-photo-box {
-  width:100%;
-  aspect-ratio:1.1;
+  border:4px solid #fff;
+  border-radius:24px;
+  background:rgba(125,119,132,.14);
   overflow:hidden;
-  border:3px solid white;
-  border-radius:23px;
-  background:#c5c4d1;
 }
-
-.concept-photo-box img {
-  display:block;
-  width:100%;
-  height:100%;
-  object-fit:cover;
+.photo-box{aspect-ratio:1/0.9}
+.photo-box img{
+  width:100%;height:100%;
+  display:block;object-fit:cover;
   object-position:center 35%;
 }
-
-.photo-error {
-  display:grid;
-  place-items:center;
-  width:100%;
-  height:100%;
-  padding:20px;
-  color:#45496f;
+.answer-box{
+  padding:42px 12%;
   text-align:center;
-  font-size:18px;
 }
-
-.choice-list {
-  width:85%;
-  display:grid;
-  gap:8px;
+.answer-box h2{
+  color:#48333f;font-size:24px;
+  font-weight:900;margin:5px 0 33px;
 }
-
-.choice-button {
-  width:100%;
-  min-height:62px;
-  padding:12px;
-  border:0;
-  border-radius:12px;
-  background:white;
-  color:#936b80;
-  font-size:clamp(17px,4vw,23px);
-  font-weight:850;
+.answer-choice{
+  width:100%;min-height:64px;
+  border:2px solid transparent;
+  background:#fff;border-radius:13px;
+  color:#956b80;font-weight:850;
+  font-size:clamp(17px,3vw,24px);
+  margin:4px 0;
   overflow-wrap:anywhere;
 }
-
-.choice-button:active {transform:scale(.98)}
-
-.result-banner {
-  width:85%;
-  padding:18px 12px;
-  border:1px solid #b9a8b9;
-  border-radius:12px;
-  background:white;
-  color:#7770a8;
-  font-size:clamp(21px,5vw,30px);
-  font-weight:900;
+.answer-choice:active{background:#f1edf5}
+.result-box{
+  padding:75px 14%;
+  text-align:center;
 }
-
-.score-grid {
-  width:85%;
+.result-box h2{
+  color:#48333f;font-size:clamp(25px,5vw,38px);
+  font-weight:900;margin:0 0 52px;
+}
+.result-banner{
+  background:#fff;border:2px solid #bbaab9;
+  border-radius:13px;
+  padding:17px 8px;
+  font-size:clamp(23px,4vw,31px);
+  font-weight:900;color:#7770a7;
+  margin-bottom:23px;
+}
+.stats{
   display:grid;
-  grid-template-columns:1fr 1.45fr;
+  grid-template-columns:40% 60%;
   gap:8px;
 }
-
-.score-cell {
-  min-height:60px;
-  display:grid;
-  place-items:center;
-  padding:10px;
-  border-radius:11px;
-  background:white;
-  color:#936b80;
-  font-size:clamp(17px,3.8vw,23px);
-  font-weight:850;
+.stats div{
+  min-height:63px;
+  background:#fff;border-radius:13px;
+  display:flex;align-items:center;justify-content:center;
+  padding:9px;
+  font-size:clamp(18px,3vw,25px);
+  font-weight:850;color:#956b80;
 }
-
-.game-actions {margin-top:18px}
-.game-actions .sub-button {margin-top:16px}
-
-@media(max-width:480px) {
-  .app {padding:104px 20px 45px}
-  .header {margin-bottom:77px}
-  .settings-panel {padding:44px 18px}
-  .setting-list {width:87%}
-  .modal {padding:40px 35px}
-  .option {min-height:62px}
-  .main-button {min-height:77px}
-  .sub-button {min-height:69px}
-  .game-panel {
-    min-height:390px;
-    padding:32px 14px;
-    gap:23px;
-  }
-  .choice-list,
-  .score-grid,
-  .result-banner {width:90%}
+.message{
+  color:#80566f;font-weight:750;
+  text-align:center;line-height:1.6;
 }
-
-@media(max-width:360px) {
-  .app {padding:65px 15px 35px}
-  .header {margin-bottom:55px}
-  h1 {font-size:28px}
-  .settings-panel {padding:30px 12px}
-  .modal {padding:30px 22px}
+.hidden{display:none!important}
+footer{
+  margin-top:110px;
+  text-align:center;color:#a6a2b4;
+  font-size:13px;font-weight:600;
+}
+@media(max-width:560px){
+  .shell{padding:65px 17px 40px}
+  header{margin-bottom:65px}
+  .content{padding:0 12px}
+  .panel{padding:32px 23px}
+  .pill{font-size:19px;padding:9px 22px}
+  .menu-btn{font-size:20px;min-height:60px}
+  .primary{min-height:75px;margin-top:20px}
+  .secondary{min-height:67px;margin-top:13px}
+  .modal{padding:35px 23px}
+  .modal h2{font-size:21px}
+  .option{font-size:20px;min-height:62px}
+  .answer-box{padding:35px 9%}
+  .answer-box h2{font-size:20px}
+  .result-box{padding:55px 11%}
+  .photo-box{aspect-ratio:1/0.9}
+  .status{padding:17px 9px}
+  .status span{font-size:16px}
 }
 </style>
 </head>
-
 <body>
-<main class="app">
+<main class="shell">
+<header>
+<p class="eyebrow">어? 익숙한데 어느 앨범이지?</p>
+<h1>컨포로 앨범 매치시키기</h1>
+<p class="subtitle" id="subtitle">
+곧 데뷔 13년차를 맞는 세븐틴의 컨포는 무궁무진하다!<br>
+컨포만 보고 어느 앨범인지 매치시킬 수 있을까요?
+</p>
+</header>
 
-  <header class="header">
-    <p class="eyebrow">어? 익숙한데 어느 앨범이지?</p>
-    <h1>컨포로 앨범 매치시키기</h1>
-    <p class="description" id="headerDescription">
-      곧 데뷔 13년차를 맞는 세븐틴의 컨포는 무궁무진하다!<br>
-      컨포만 보고 어느 앨범인지 매치시킬 수 있을까요?
-    </p>
-  </header>
+<div class="content">
 
-  <!-- 게임 설정 -->
-  <section id="settings" class="screen active">
-    <div class="settings-panel">
-      <div class="panel-caption">
-        게임 진행 방식을 설정합니다
-      </div>
+<section id="settings" class="screen active">
+ <div class="panel">
+  <div class="pill">게임 진행 방식을 설정합니다</div>
+  <button class="menu-btn" onclick="openModal('album')">게임에 포함되는 앨범 설정</button>
+  <button class="menu-btn" onclick="openModal('round')">게임 라운드 설정</button>
+  <button class="menu-btn" onclick="openModal('time')">게임 제한시간 설정</button>
+  <button class="menu-btn" onclick="openModal('default')">기본 설정으로 게임 진행하기</button>
+ </div>
+ <button class="primary" onclick="openRules()">설정 확인 후 게임 시작하기</button>
+ <a class="secondary" href="../">메인화면으로 돌아가기</a>
+</section>
 
-      <div class="setting-list">
-        <button class="setting-button" data-open="album">
-          게임에 포함되는 앨범 설정
-        </button>
+<section id="rules" class="screen">
+ <div class="panel">
+  <div class="pill">게임 규칙을 설명합니다</div>
+  <div class="rules">
+   <p>1. 게임을 시작하면, 컨셉 포토가 보여집니다.</p>
+   <p>2. 정답을 생각 후, 제한시간 내에 선택지에서 고릅니다.</p>
+   <p>3. 제한시간 내에 선택하지 못했을 경우 0점 처리됩니다.</p>
+   <p>4. 정답일 경우 214점, 오답일 경우 0점 처리됩니다.</p>
+   <p>5. 모든 라운드 종료 후, 순위를 확인할 수 있습니다.</p>
+  </div>
+ </div>
+ <button class="primary" onclick="startGame()">게임 진짜 시작하기</button>
+ <a class="secondary" href="../">메인화면으로 돌아가기</a>
+</section>
 
-        <button class="setting-button" data-open="round">
-          게임 라운드 설정
-        </button>
+<section id="playing" class="screen">
+ <div class="status">
+  <span id="round-label">1라운드</span>
+  <i></i>
+  <span>제한시간</span>
+  <span id="clock">00:20</span>
+ </div>
+ <div class="photo-box">
+  <img id="concept-photo" alt="세븐틴 앨범 컨셉 포토">
+ </div>
+ <button class="primary" onclick="showAnswers()">정답 고르기</button>
+ <a class="secondary" href="../" onclick="return confirm('진행 중인 게임을 종료할까요?')">메인화면으로 돌아가기</a>
+</section>
 
-        <button class="setting-button" data-open="time">
-          게임 제한시간 설정
-        </button>
+<section id="answering" class="screen">
+ <div class="status">
+  <span id="answer-round">1라운드</span>
+  <i></i>
+  <span>제한시간</span>
+  <span id="answer-clock">00:20</span>
+ </div>
+ <div class="answer-box">
+  <h2>제한시간 내 정답을 골라주세요!</h2>
+  <div id="choices"></div>
+ </div>
+ <button class="primary" id="back-photo" onclick="showPhoto()">다시 컨셉 포토 확인하기</button>
+ <a class="secondary" href="../" onclick="return confirm('진행 중인 게임을 종료할까요?')">메인화면으로 돌아가기</a>
+</section>
 
-        <button class="setting-button" data-open="default">
-          기본 설정으로 게임 진행하기
-        </button>
-      </div>
-    </div>
+<section id="round-result" class="screen">
+ <div class="status">
+  <span id="result-round">1라운드</span>
+  <i></i>
+  <span>제한시간</span>
+  <span id="result-clock">00:00</span>
+ </div>
+ <div class="result-box">
+  <h2 id="result-heading">1라운드 결과 안내</h2>
+  <div class="result-banner" id="result-message">정답입니다!</div>
+  <div class="stats">
+   <div>획득 점수</div><div id="earned">0점</div>
+   <div>누적 점수</div><div id="total">0점</div>
+  </div>
+  <p class="message" id="correct-album"></p>
+ </div>
+ <button class="primary" id="next-round" onclick="nextRound()">다음 라운드로 넘어가기</button>
+ <a class="secondary" href="../">메인화면으로 돌아가기</a>
+</section>
 
-    <button class="main-button" id="review">
-      설정 확인 후 게임 시작하기
-    </button>
+<section id="final" class="screen">
+ <div class="status">
+  <span>게임종료!</span>
+  <i></i>
+  <span>제한시간</span>
+  <span>00:00</span>
+ </div>
+ <div class="result-box">
+  <h2>최종 결과 안내</h2>
+  <div class="stats">
+   <div>진행 라운드</div><div id="final-rounds">0라운드</div>
+   <div>정답 개수</div><div id="final-correct">0개</div>
+   <div>오답 개수</div><div id="final-wrong">0개</div>
+   <div>누적 점수</div><div id="final-score">0점</div>
+  </div>
+ </div>
+ <button class="primary" onclick="shareResult()">트위터에 결과 공유하기</button>
+ <a class="secondary" href="../">메인화면으로 돌아가기</a>
+ <button class="secondary" onclick="resetGame()">컨포 게임 설정 화면으로 돌아가기</button>
+</section>
 
-    <button class="sub-button" id="homeLink">
-      메인화면으로 돌아가기
-    </button>
-  </section>
-
-  <!-- 게임 준비 -->
-  <section id="ready" class="screen">
-    <div class="rule-panel">
-      <div class="rule-title">
-        게임 규칙을 설명합니다
-      </div>
-
-      <div class="rules">
-        <p>1. 게임을 시작하면, 컨셉 포토가 보여집니다.</p>
-        <p>2. 정답을 생각 후, 제한시간 내에 선택지에서 고릅니다.</p>
-        <p>3. 제한시간 내에 선택하지 못했을 경우 0점 처리됩니다.</p>
-        <p>4. 정답일 경우 214점, 오답일 경우 0점 처리됩니다.</p>
-        <p>5. 모든 라운드 종료 후, 순위를 확인할 수 있습니다.</p>
-      </div>
-    </div>
-
-    <div class="rule-actions">
-      <button class="main-button" id="startGame">
-        게임 진짜 시작하기
-      </button>
-
-      <button class="sub-button" id="backSettings">
-        게임 설정으로 돌아가기
-      </button>
-    </div>
-  </section>
-
-  <!-- 게임 진행 -->
-  <section id="game" class="screen">
-    <div class="game-status">
-      <div class="status-chip" id="roundLabel">1라운드</div>
-      <span class="status-divider">|</span>
-      <div class="status-chip">제한시간</div>
-      <div class="status-chip timer" id="timerLabel">00:20</div>
-    </div>
-
-    <div id="gameContent"></div>
-    <div class="game-actions" id="gameActions"></div>
-  </section>
-
+</div>
+<footer>SVTCHIVE @SVTCHIVE0526</footer>
 </main>
 
-<!-- 설정 팝업 -->
 <div class="overlay" id="overlay">
-  <div class="modal"
-       role="dialog"
-       aria-modal="true"
-       aria-labelledby="modalTitle">
-
-    <h2 id="modalTitle"></h2>
-
-    <div class="options" id="modalOptions"></div>
-
-    <button class="modal-confirm" id="modalConfirm">
-      게임을 진행합니다
-    </button>
-  </div>
+ <div class="modal">
+  <h2 id="modal-title"></h2>
+  <div id="modal-options"></div>
+  <button class="option confirm" onclick="closeModal()">게임을 진행합니다</button>
+ </div>
 </div>
 
+<audio id="bgm" preload="auto" src="./audio/Guilty%20Pleasure.mp4"></audio>
+
 <script>
-(() => {
-  "use strict";
+'use strict';
 
-  const DEFAULT = {
-    album:"kr",
-    roundMode:"fixed",
-    rounds:13,
-    timeMode:"20"
+/* GitHub 사진 저장소 */
+const OWNER='svtchive0526';
+const REPO='seventeen-timing-challenge';
+const BRANCH='main';
+const PHOTO_PATH='game3/photos';
+
+/* 기본 설정 */
+const DEFAULTS={
+  album:'한국 앨범으로 한정',
+  roundMode:'default',
+  rounds:13,
+  timeMode:'20',
+  seconds:20
+};
+
+let settings={...DEFAULTS};
+let albums=[];
+let questions=[];
+let currentIndex=0;
+let correctCount=0;
+let wrongCount=0;
+let totalScore=0;
+let remaining=20;
+let deadline=0;
+let timer=null;
+let expired=false;
+let answered=false;
+let currentQuestion=null;
+let currentOptions=[];
+
+const $=id=>document.getElementById(id);
+const bgm=$('bgm');
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(el=>{
+    el.classList.toggle('active',el.id===id);
+  });
+  window.scrollTo(0,0);
+}
+
+function shuffle(arr){
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+
+function randomInt(min,max){
+  return Math.floor(Math.random()*(max-min+1))+min;
+}
+
+function escapeHTML(s){
+  return String(s).replace(/[&<>"']/g,c=>({
+    '&':'&amp;','<':'&lt;','>':'&gt;',
+    '"':'&quot;',"'":'&#39;'
+  }[c]));
+}
+
+function openModal(type){
+  const box=$('modal-options');
+  box.innerHTML='';
+  const titles={
+    album:'게임에 포함되는 앨범 설정',
+    round:'게임 라운드 설정',
+    time:'게임 제한시간 설정',
+    default:'기본 설정으로 게임 진행하기'
   };
+  $('modal-title').textContent=titles[type];
 
-  // 사진 연결 전 임시 정답 목록
-  const TEST_ALBUMS = [
-    "17 CARAT","BOYS BE","First Love & Letter",
-    "Love & Letter Repackage","Going Seventeen","Al1",
-    "TEEN, AGE","DIRECTOR'S CUT","YOU MAKE MY DAY",
-    "YOU MADE MY DAWN","An Ode","헹가래",
-    "Semicolon","Your Choice","Attacca",
-    "Face the Sun","SECTOR 17","FML",
-    "SEVENTEENTH HEAVEN","17 IS RIGHT HERE",
-    "SPILL THE FEELS","HAPPY BURSTDAY",
-    "소야곡","DREAMSCAPE","HYPE VIBES","V8"
-  ];
-
-  // GitHub Pages 실제 사진
-  const TEST_PHOTO = "./photos/DREAMSCAPE/001.png";
-
-  let settings={...DEFAULT};
-  let draft={...DEFAULT};
-  let modalType=null;
-  let previousFocus=null;
-
-  let questions=[];
-  let currentIndex=0;
-  let correctCount=0;
-  let wrongCount=0;
-  let totalScore=0;
-  let remaining=20;
-  let roundSeconds=20;
-  let deadline=0;
-  let timer=null;
-  let phase="idle";
-  let optionsForRound=[];
-  let currentResult=null;
-  let lastCorrectPosition=-1;
-
-  const $=id=>document.getElementById(id);
-  const overlay=$("overlay");
-  const modalOptions=$("modalOptions");
-
-  function shuffle(source) {
-    const array=[...source];
-
-    for(let i=array.length-1;i>0;i--) {
-      const j=Math.floor(Math.random()*(i+1));
-      [array[i],array[j]]=[array[j],array[i]];
-    }
-
-    return array;
+  function add(label,action,disabled=false,selected=false){
+    const b=document.createElement('button');
+    b.className='option'+(selected?' selected':'');
+    b.textContent=label;
+    b.disabled=disabled;
+    b.onclick=action;
+    box.appendChild(b);
+    return b;
   }
 
-  function showScreen(id) {
-    document.querySelectorAll(".screen").forEach(el=>{
-      el.classList.toggle("active",el.id===id);
-    });
-
-    $("headerDescription").hidden=(id==="game");
-    window.scrollTo(0,0);
+  if(type==='album'){
+    add('한국 앨범으로 한정',()=>{
+      settings.album='한국 앨범으로 한정';
+      closeModal();
+    },false,true);
+    add('한국 앨범 + 일본 앨범',()=>{},true);
+    add('랜덤으로 출제하기',()=>{},true);
   }
 
-  function openModal(type) {
-    modalType=type;
-    draft={...settings};
-    previousFocus=document.activeElement;
-    renderModal();
-    overlay.classList.add("open");
-    document.body.style.overflow="hidden";
-    $("modalConfirm").focus();
+  if(type==='round'){
+    add('기본 라운드 *13라운드',()=>{
+      settings.roundMode='default';
+      settings.rounds=13;
+      closeModal();
+    },false,settings.roundMode==='default');
+
+    add('랜덤 라운드 *1~26라운드',()=>{
+      settings.roundMode='random';
+      closeModal();
+    },false,settings.roundMode==='random');
+
+    const counter=document.createElement('div');
+    counter.className='counter';
+    counter.innerHTML=`
+      <button id="minus" type="button">-</button>
+      <span id="round-count">${settings.rounds}라운드</span>
+      <button id="plus" type="button">+</button>
+    `;
+    box.appendChild(counter);
+
+    function change(n){
+      settings.rounds=Math.max(1,Math.min(26,settings.rounds+n));
+      settings.roundMode='custom';
+      $('round-count').textContent=settings.rounds+'라운드';
+    }
+    $('minus').onclick=()=>change(-1);
+    $('plus').onclick=()=>change(1);
+
+    add('지정 라운드로 진행',()=>{
+      settings.roundMode='custom';
+      closeModal();
+    },false,settings.roundMode==='custom');
   }
 
-  function closeModal(save=false) {
-    if(save) {
-      settings=modalType==="default"
-        ?{...DEFAULT}
-        :{...draft};
-    }
-
-    overlay.classList.remove("open");
-    document.body.style.overflow="";
-    modalType=null;
-    previousFocus?.focus();
+  if(type==='time'){
+    add('13초',()=>{
+      settings.timeMode='13';
+      closeModal();
+    },false,settings.timeMode==='13');
+    add('20초',()=>{
+      settings.timeMode='20';
+      closeModal();
+    },false,settings.timeMode==='20');
+    add('13~20초 중 랜덤',()=>{
+      settings.timeMode='random';
+      closeModal();
+    },false,settings.timeMode==='random');
   }
 
-  function option(label,selected,callback,disabled=false) {
-    const btn=document.createElement("button");
-
-    btn.type="button";
-    btn.className="option"+(selected?" selected":"");
-    btn.textContent=label;
-    btn.disabled=disabled;
-    btn.setAttribute("aria-pressed",String(selected));
-
-    if(!disabled)
-      btn.addEventListener("click",callback);
-
-    modalOptions.append(btn);
+  if(type==='default'){
+    settings={...DEFAULTS};
+    add('한국 앨범으로 한정',()=>{},true);
+    add('13라운드로 진행',()=>{},true);
+    add('20초 제한시간',()=>{},true);
   }
 
-  function addStepper() {
-    const row=document.createElement("div");
+  $('overlay').classList.add('active');
+}
 
-    row.className="stepper"+
-      (draft.roundMode==="fixed"&&draft.rounds!==13
-        ?" selected":"");
+function closeModal(){
+  $('overlay').classList.remove('active');
+}
 
-    const minus=document.createElement("button");
-    const value=document.createElement("output");
-    const plus=document.createElement("button");
+function openRules(){
+  closeModal();
+  showScreen('rules');
+}
 
-    minus.textContent="−";
-    plus.textContent="+";
-
-    function update(delta) {
-      draft.roundMode="fixed";
-      draft.rounds=Math.max(
-        1,
-        Math.min(26,draft.rounds+delta)
-      );
-
-      value.textContent=draft.rounds+"라운드";
-      minus.disabled=draft.rounds===1;
-      plus.disabled=draft.rounds===26;
-      row.classList.toggle("selected",draft.rounds!==13);
-    }
-
-    minus.addEventListener("click",()=>{
-      update(-1);
-      renderModal();
-    });
-
-    plus.addEventListener("click",()=>{
-      update(1);
-      renderModal();
-    });
-
-    value.textContent=draft.rounds+"라운드";
-    minus.disabled=draft.rounds===1;
-    plus.disabled=draft.rounds===26;
-
-    row.append(minus,value,plus);
-    modalOptions.append(row);
+/* GitHub API를 이용해 실제 사진 목록 가져오기 */
+async function githubFolder(path){
+  const url=`https://api.github.com/repos/${OWNER}/${REPO}/contents/${path.split('/').map(encodeURIComponent).join('/')}?ref=${BRANCH}`;
+  const response=await fetch(url,{cache:'no-store'});
+  if(!response.ok){
+    throw new Error('GitHub 폴더를 읽을 수 없습니다. HTTP '+response.status);
   }
+  const data=await response.json();
+  if(!Array.isArray(data))throw new Error('폴더 목록이 아닙니다.');
+  return data;
+}
 
-  function renderModal() {
-    modalOptions.replaceChildren();
+function isImage(name){
+  return /\.(png|jpe?g|webp|gif|avif)$/i.test(name);
+}
 
-    $("modalConfirm").textContent="게임을 진행합니다";
+async function loadAlbums(){
+  const folders=await githubFolder(PHOTO_PATH);
+  const result=[];
 
-    if(modalType==="album") {
-      $("modalTitle").textContent=
-        "게임에 포함되는 앨범 설정";
+  for(const folder of folders){
+    if(folder.type!=='dir')continue;
 
-      option("한국 앨범으로 한정",true,()=>{});
-      option("한국 앨범 + 일본 앨범",false,()=>{},true);
-      option("랜덤으로 출제하기",false,()=>{},true);
-    }
+    const files=await githubFolder(PHOTO_PATH+'/'+folder.name);
+    const images=files
+      .filter(file=>file.type==='file'&&isImage(file.name))
+      .map(file=>file.download_url);
 
-    if(modalType==="round") {
-      $("modalTitle").textContent="게임 라운드 설정";
-
-      option(
-        "기본 라운드 *13라운드",
-        draft.roundMode==="fixed"&&draft.rounds===13,
-        ()=>{
-          draft.roundMode="fixed";
-          draft.rounds=13;
-          renderModal();
-        }
-      );
-
-      option(
-        "랜덤 라운드 *1~26라운드",
-        draft.roundMode==="random",
-        ()=>{
-          draft.roundMode="random";
-          renderModal();
-        }
-      );
-
-      addStepper();
-    }
-
-    if(modalType==="time") {
-      $("modalTitle").textContent="게임 제한시간 설정";
-
-      [
-        ["13","13초"],
-        ["20","20초"],
-        ["random","13~20초 중 랜덤"]
-      ].forEach(([key,label])=>{
-        option(
-          label,
-          draft.timeMode===key,
-          ()=>{
-            draft.timeMode=key;
-            renderModal();
-          }
-        );
-      });
-    }
-
-    if(modalType==="default") {
-      $("modalTitle").textContent=
-        "기본 설정으로 게임 진행하기";
-
-      [
-        "한국 앨범으로 한정",
-        "13라운드로 진행",
-        "20초 제한시간"
-      ].forEach(label=>{
-        option(label,false,()=>{},true);
-      });
-
-      modalOptions.querySelectorAll(".option").forEach(el=>{
-        el.style.opacity="1";
-        el.style.color="var(--blue)";
+    if(images.length){
+      result.push({
+        name:folder.name,
+        photos:images
       });
     }
   }
 
-  function make(tag,className,text) {
-    const el=document.createElement(tag);
+  return result;
+}
 
-    if(className)
-      el.className=className;
+/* 일본 앨범 폴더는 출제 대상에서 제외
+   실제 폴더 목록에 맞춰 필요 시 추가 */
+const JAPANESE_ALBUMS=[
+  'WE MAKE YOU',
+  'HAPPY ENDING',
+  'Fallin Flower',
+  'Fallin’ Flower',
+  '24H',
+  'Not Alone',
+  'ひとりじゃない',
+  'POWER OF LOVE',
+  'DREAM',
+  'ALWAYS YOURS'
+];
 
-    if(text!==undefined)
-      el.textContent=text;
+function isKoreanAlbum(name){
+  const normalized=s=>s.toLowerCase()
+    .replace(/[\s'’"._\-]/g,'');
+  return !JAPANESE_ALBUMS.some(
+    japanese=>normalized(japanese)===normalized(name)
+  );
+}
 
-    return el;
+/* 실제 출제 문제 생성 */
+function makeQuestions(){
+  const eligible=albums.filter(a=>isKoreanAlbum(a.name));
+  const count=settings.roundMode==='random'
+    ?randomInt(1,26)
+    :settings.rounds;
+
+  if(eligible.length<5){
+    throw new Error('5지선다 출제를 위해 최소 5개의 한국 앨범이 필요합니다.');
   }
-
-  function action(label,callback,secondary=false) {
-    const btn=make(
-      "button",
-      secondary?"sub-button":"main-button",
-      label
+  if(eligible.length<count){
+    throw new Error(
+      `중복 없이 ${count}라운드를 진행하려면 ${count}개의 앨범이 필요하지만 현재 ${eligible.length}개만 확인되었습니다.`
     );
-
-    btn.type="button";
-    btn.addEventListener("click",callback);
-
-    return btn;
   }
 
-  function setActions(...buttons) {
-    $("gameActions").replaceChildren(...buttons);
-  }
+  const chosen=shuffle(eligible).slice(0,count);
+  questions=chosen.map(album=>({
+    album:album.name,
+    photo:shuffle(album.photos)[0],
+    seconds:settings.timeMode==='random'
+      ?randomInt(13,20)
+      :Number(settings.timeMode)
+  }));
+}
 
-  function setStatus() {
-    $("roundLabel").textContent=
-      phase==="final"
-        ?"게임종료!"
-        :(currentIndex+1)+"라운드";
+async function startGame(){
+  const btn=document.querySelector('#rules .primary');
+  btn.disabled=true;
+  btn.textContent='컨셉 포토 불러오는 중...';
 
-    $("timerLabel").textContent=
-      "00:"+
-      String(Math.max(0,Math.ceil(remaining))).padStart(2,"0");
-  }
-
-  function renderPanel(...children) {
-    const panel=make("div","game-panel");
-    panel.append(...children);
-
-    $("gameContent").replaceChildren(panel);
-
-    showScreen("game");
-    setStatus();
-
-    return panel;
-  }
-
-  function stopTimer() {
-    if(timer!==null) {
-      clearInterval(timer);
-      timer=null;
-    }
-  }
-
-  function updateTimer() {
-    if(phase!=="photo"&&phase!=="choice")
-      return;
-
-    remaining=Math.max(
-      0,
-      (deadline-performance.now())/1000
-    );
-
-    setStatus();
-
-    if(remaining<=0) {
-      stopTimer();
-      remaining=0;
-
-      if(phase==="photo"||phase==="choice")
-        showChoices();
-    }
-  }
-
-  function getSeconds() {
-    if(settings.timeMode==="random")
-      return 13+Math.floor(Math.random()*8);
-
-    return Number(settings.timeMode)||20;
-  }
-
-  function startGame() {
-    let count=13;
-
-    if(settings.roundMode==="random")
-      count=1+Math.floor(Math.random()*26);
-    else
-      count=settings.rounds;
-
-    questions=shuffle(TEST_ALBUMS).slice(0,count);
+  try{
+    albums=await loadAlbums();
+    makeQuestions();
 
     currentIndex=0;
     correctCount=0;
     wrongCount=0;
     totalScore=0;
-    lastCorrectPosition=-1;
 
     startRound();
+  }catch(err){
+    alert('게임을 시작할 수 없습니다.\n\n'+err.message);
+  }finally{
+    btn.disabled=false;
+    btn.textContent='게임 진짜 시작하기';
   }
+}
 
-  function startRound() {
-    phase="photo";
+/* 타이머와 음악 */
+function stopMusic(){
+  bgm.pause();
+  bgm.currentTime=0;
+}
 
-    roundSeconds=getSeconds();
-    remaining=roundSeconds;
-    currentResult=null;
+function playMusic(){
+  bgm.pause();
+  bgm.currentTime=0;
+  bgm.play().catch(()=>{
+    console.warn('브라우저에서 음악 재생을 차단했습니다.');
+  });
+}
 
-    const correct=questions[currentIndex];
+function stopTimer(){
+  if(timer!==null){
+    clearInterval(timer);
+    timer=null;
+  }
+}
 
-    const others=shuffle(
-      TEST_ALBUMS.filter(x=>x!==correct)
-    ).slice(0,4);
+function formatTime(seconds){
+  return '00:'+String(Math.ceil(Math.max(0,seconds))).padStart(2,'0');
+}
 
-    let position=Math.floor(Math.random()*5);
+function updateClocks(){
+  const t=formatTime(remaining);
+  $('clock').textContent=t;
+  $('answer-clock').textContent=t;
+}
 
-    if(position===lastCorrectPosition)
-      position=(
-        position+1+Math.floor(Math.random()*4)
-      )%5;
+function tick(){
+  remaining=Math.max(0,(deadline-performance.now())/1000);
+  updateClocks();
 
-    lastCorrectPosition=position;
-
-    optionsForRound=[...others];
-    optionsForRound.splice(position,0,correct);
-
-    showPhoto();
-
-    deadline=performance.now()+roundSeconds*1000;
+  if(remaining<=0&&!expired&&!answered){
+    expired=true;
     stopTimer();
-    timer=setInterval(updateTimer,100);
+    stopMusic();
+    $('back-photo').disabled=true;
+    showAnswers();
   }
+}
 
-  // 실제 PNG 컨셉 포토 표시
-  function showPhoto() {
-    phase="photo";
+function startRound(){
+  stopTimer();
+  stopMusic();
 
-    const photoBox=make(
-      "div",
-      "concept-photo-box"
-    );
+  answered=false;
+  expired=false;
+  currentQuestion=questions[currentIndex];
+  remaining=currentQuestion.seconds;
 
-    const img=document.createElement("img");
+  const round=currentIndex+1;
+  $('round-label').textContent=round+'라운드';
+  $('answer-round').textContent=round+'라운드';
 
-    img.src=TEST_PHOTO;
-    img.alt="세븐틴 컨셉 포토";
-    img.loading="eager";
-    img.decoding="async";
+  const img=$('concept-photo');
+  img.src=currentQuestion.photo;
+  img.alt='앨범을 맞혀야 하는 컨셉 포토';
 
-    img.onerror=()=>{
-      photoBox.replaceChildren(
-        make(
-          "div",
-          "photo-error",
-          "사진을 불러오지 못했습니다."
-        )
-      );
-    };
+  /* 매 라운드 동일한 사진 박스 크기 */
+  img.style.objectPosition='center 35%';
 
-    photoBox.append(img);
+  /* 5지선다 생성 */
+  const otherAlbums=shuffle(
+    albums.filter(a=>isKoreanAlbum(a.name)&&a.name!==currentQuestion.album)
+  ).slice(0,4).map(a=>a.name);
 
-    $("gameContent").replaceChildren(photoBox);
+  currentOptions=shuffle([
+    currentQuestion.album,
+    ...otherAlbums
+  ]);
 
-    setStatus();
-    showScreen("game");
+  $('back-photo').disabled=false;
+  updateClocks();
 
-    setActions(
-      action("정답 고르기",showChoices),
-      action(
-        "메인화면으로 돌아가기",
-        confirmExit,
-        true
-      )
-    );
-  }
+  showScreen('playing');
+  deadline=performance.now()+remaining*1000;
+  timer=setInterval(tick,50);
+  playMusic();
+}
 
-  function showChoices() {
-    phase="choice";
+function showAnswers(){
+  if(answered)return;
 
-    const title=make(
-      "h2",
-      "game-heading",
-      "제한시간 내 정답을 골라주세요!"
-    );
+  tick();
 
-    const list=make("div","choice-list");
+  const box=$('choices');
+  box.innerHTML='';
 
-    optionsForRound.forEach(album=>{
-      const btn=make(
-        "button",
-        "choice-button",
-        album
-      );
-
-      btn.type="button";
-
-      btn.addEventListener(
-        "click",
-        ()=>submitAnswer(album)
-      );
-
-      list.append(btn);
-    });
-
-    renderPanel(title,list);
-
-    const back=action(
-      "다시 컨셉 포토 확인하기",
-      ()=>{
-        updateTimer();
-
-        if(remaining>0)
-          showPhoto();
-      }
-    );
-
-    back.disabled=remaining<=0;
-
-    if(back.disabled)
-      back.style.opacity=".3";
-
-    setActions(
-      back,
-      action(
-        "메인화면으로 돌아가기",
-        confirmExit,
-        true
-      )
-    );
-  }
-
-  function submitAnswer(selected) {
-    if(phase!=="choice")
-      return;
-
-    const timeLeft=Math.max(
-      0,
-      (deadline-performance.now())/1000
-    );
-
-    const inTime=timeLeft>0;
-    remaining=timeLeft;
-    stopTimer();
-
-    const correct=questions[currentIndex];
-    const isCorrect=selected===correct&&inTime;
-    const earned=isCorrect?214:0;
-
-    if(isCorrect)
-      correctCount++;
-    else
-      wrongCount++;
-
-    totalScore+=earned;
-
-    currentResult={
-      isCorrect,
-      earned,
-      selected,
-      correct
-    };
-
-    showRoundResult();
-  }
-
-  function scoreGrid(rows) {
-    const grid=make("div","score-grid");
-
-    rows.forEach(([label,value])=>{
-      grid.append(
-        make("div","score-cell",label),
-        make("div","score-cell",value)
-      );
-    });
-
-    return grid;
-  }
-
-  function showRoundResult() {
-    phase="result";
-
-    const last=currentIndex===questions.length-1;
-
-    renderPanel(
-      make(
-        "h2",
-        "game-heading",
-        (currentIndex+1)+"라운드 결과 안내"
-      ),
-
-      make(
-        "div",
-        "result-banner",
-        currentResult.isCorrect
-          ?"정답입니다!"
-          :"오답입니다!"
-      ),
-
-      scoreGrid([
-        ["획득 점수",currentResult.earned+"점"],
-        ["누적 점수",totalScore+"점"]
-      ])
-    );
-
-    setActions(
-      action(
-        last
-          ?"최종 결과 보기"
-          :"다음 라운드로 넘어가기",
-        ()=>{
-          if(last) {
-            showFinal();
-          } else {
-            currentIndex++;
-            startRound();
-          }
-        }
-      ),
-
-      action(
-        "메인화면으로 돌아가기",
-        confirmExit,
-        true
-      )
-    );
-  }
-
-  function showFinal() {
-    phase="final";
-    stopTimer();
-    remaining=0;
-
-    renderPanel(
-      make(
-        "h2",
-        "game-heading",
-        "최종 결과 안내"
-      ),
-
-      scoreGrid([
-        ["진행 라운드",questions.length+"라운드"],
-        ["정답 개수",correctCount+"개"],
-        ["오답 개수",wrongCount+"개"],
-        ["누적 점수",totalScore+"점"]
-      ])
-    );
-
-    setActions(
-      action(
-        "트위터에 결과 공유하기",
-        shareResult
-      ),
-
-      action(
-        "메인화면으로 돌아가기",
-        confirmExit,
-        true
-      ),
-
-      action(
-        "컨포 게임 설정 화면으로 돌아가기",
-        ()=>{
-          phase="idle";
-          showScreen("settings");
-        },
-        true
-      )
-    );
-  }
-
-  function shareResult() {
-    const link=location.protocol.startsWith("http")
-      ?location.href.split("#")[0]
-      :"컨포 게임 링크";
-
-    const message=[
-      "세븐틴 컨포로 앨범 매치! 💎",
-      "",
-      "진행 라운드: "+questions.length+"라운드",
-      "정답 개수: "+correctCount+"개",
-      "오답 개수: "+wrongCount+"개",
-      "누적 점수: "+totalScore+"점",
-      "",
-      "컨포 게임하러가기",
-      link,
-      "",
-      "#SEVENTEEN #세븐틴 @pledis_17"
-    ].join("\n");
-
-    window.open(
-      "https://twitter.com/intent/tweet?text="+
-        encodeURIComponent(message),
-      "_blank",
-      "noopener,noreferrer"
-    );
-  }
-
-  function confirmExit() {
-    if(!confirm(
-      "게임을 종료하고 설정 화면으로 돌아갈까요?\n"+
-      "현재 진행 상황은 저장되지 않습니다."
-    ))return;
-
-    stopTimer();
-    phase="idle";
-    showScreen("settings");
-  }
-
-  document.querySelectorAll("[data-open]").forEach(btn=>{
-    btn.addEventListener(
-      "click",
-      ()=>openModal(btn.dataset.open)
-    );
+  currentOptions.forEach(option=>{
+    const btn=document.createElement('button');
+    btn.className='answer-choice';
+    btn.textContent=option;
+    btn.onclick=()=>submitAnswer(option);
+    box.appendChild(btn);
   });
 
-  $("modalConfirm").addEventListener(
-    "click",
-    ()=>closeModal(true)
+  $('back-photo').disabled=expired;
+  showScreen('answering');
+}
+
+function showPhoto(){
+  if(expired||answered)return;
+  tick();
+  if(!expired)showScreen('playing');
+}
+
+/* 채점 : 시간 초과 시 선택해도 0점 */
+function submitAnswer(choice){
+  if(answered)return;
+
+  tick();
+  answered=true;
+  stopTimer();
+  stopMusic();
+
+  const correct=choice===currentQuestion.album;
+  const earned=correct&&!expired?214:0;
+
+  if(earned===214)correctCount++;
+  else wrongCount++;
+
+  totalScore+=earned;
+
+  $('result-round').textContent=(currentIndex+1)+'라운드';
+  $('result-clock').textContent=formatTime(remaining);
+  $('result-heading').textContent=(currentIndex+1)+'라운드 결과 안내';
+
+  $('result-message').textContent=
+    expired?'시간 초과!':
+    correct?'정답입니다!':'오답입니다!';
+
+  $('earned').textContent=earned+'점';
+  $('total').textContent=totalScore+'점';
+  $('correct-album').textContent=
+    '정답: '+currentQuestion.album;
+
+  const last=currentIndex===questions.length-1;
+  $('next-round').textContent=last
+    ?'최종 결과 보기'
+    :'다음 라운드로 넘어가기';
+
+  showScreen('round-result');
+}
+
+function nextRound(){
+  currentIndex++;
+  if(currentIndex>=questions.length){
+    showFinal();
+  }else{
+    startRound();
+  }
+}
+
+function showFinal(){
+  stopTimer();
+  stopMusic();
+
+  $('final-rounds').textContent=questions.length+'라운드';
+  $('final-correct').textContent=correctCount+'개';
+  $('final-wrong').textContent=wrongCount+'개';
+  $('final-score').textContent=totalScore+'점';
+
+  showScreen('final');
+}
+
+function shareResult(){
+  const gameURL='https://svtchive0526.github.io/seventeen-timing-challenge/game3/';
+
+  const text=[
+    '세븐틴 컨포로 앨범 매치! 💎',
+    '',
+    '진행 라운드: '+questions.length+'라운드',
+    '정답 개수: '+correctCount+'개',
+    '오답 개수: '+wrongCount+'개',
+    '누적 점수: '+totalScore+'점',
+    '',
+    '컨포 게임하러가기',
+    gameURL,
+    '',
+    '#SEVENTEEN #세븐틴 @pledis_17'
+  ].join('\n');
+
+  window.open(
+    'https://twitter.com/intent/tweet?text='+encodeURIComponent(text),
+    '_blank',
+    'noopener,noreferrer'
   );
+}
 
-  overlay.addEventListener("click",e=>{
-    if(e.target===overlay)
-      closeModal(false);
-  });
-
-  document.addEventListener("keydown",e=>{
-    if(modalType&&e.key==="Escape")
-      closeModal(false);
-  });
-
-  $("review").addEventListener(
-    "click",
-    ()=>showScreen("ready")
-  );
-
-  $("backSettings").addEventListener(
-    "click",
-    ()=>showScreen("settings")
-  );
-
-  $("startGame").addEventListener(
-    "click",
-    startGame
-  );
-
-  $("homeLink").addEventListener("click",()=>{
-    alert(
-      "메인화면 연결은 게임 통합 단계에서 적용됩니다."
-    );
-  });
-
-  window.addEventListener("pagehide",stopTimer);
-
-  window.getWhenWasItSettings=()=>({...settings});
-})();
+function resetGame(){
+  stopTimer();
+  stopMusic();
+  settings={...DEFAULTS};
+  questions=[];
+  currentIndex=0;
+  showScreen('settings');
+}
 </script>
 </body>
 </html>
