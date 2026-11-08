@@ -41,11 +41,11 @@ button:focus-visible,a:focus-visible{
 header{text-align:center;margin-bottom:75px}
 .eyebrow{
   font-size:clamp(19px,4vw,35px);
-  color:#9da5c0;font-weight:800;margin:0 0 9px;
+  color:#ca989f;font-weight:800;margin:0 0 9px;
 }
 h1{
   font-size:clamp(29px,6.3vw,53px);
-  font-weight:900;color:#45486e;
+  font-weight:900;color:#805263;
   margin:0;line-height:1.15;
 }
 .subtitle{
@@ -234,18 +234,19 @@ body.game-active .subtitle{display:none}
   width:100%;height:100%;display:block;
   object-fit:cover;object-position:center 35%;
 }
-.answer-box{padding:42px 12%;text-align:center}
+.answer-box{padding:25px 10%;text-align:center}
 .answer-box h2{
   color:#48333f;font-size:24px;
-  font-weight:900;margin:5px 0 33px;
+  font-weight:900;margin:3px 0 19px;
 }
 .answer-choice{
-  width:100%;min-height:64px;
+  width:100%;min-height:49px;
   border:2px solid transparent;
   background:#fff;border-radius:13px;
-  color:#956b80;font-weight:850;
-  font-size:clamp(17px,3vw,24px);
-  margin:4px 0;overflow-wrap:anywhere;
+  color:#956b80;font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  font-weight:900;font-synthesis:weight;
+  font-size:clamp(16px,2.8vw,22px);
+  margin:3px 0;overflow-wrap:anywhere;
 }
 .answer-choice:active{background:#f1edf5}
 
@@ -309,8 +310,9 @@ footer{
   .modal{padding:29px 21px 24px}
   .modal h2{font-size:21px}
   .option{font-size:20px;min-height:60px}
-  .answer-box{padding:35px 9%}
-  .answer-box h2{font-size:20px}
+  .answer-box{padding:22px 8%}
+  .answer-box h2{font-size:20px;margin-bottom:17px}
+  .answer-choice{min-height:47px;font-size:clamp(16px,4.2vw,20px);margin:3px 0}
   body.game-active .shell{padding-top:40px}
   body.game-active header{margin-bottom:35px}
   .status{padding:13px 14px;gap:12px}
