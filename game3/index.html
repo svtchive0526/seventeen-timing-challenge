@@ -7,40 +7,30 @@
 <meta name="theme-color" content="#e5cacc">
 <title>언제일까? | SVTCHIVE</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
-
 <style>
 :root{
   font-family:Pretendard,-apple-system,BlinkMacSystemFont,
   "Apple SD Gothic Neo","Malgun Gothic",sans-serif;
-  letter-spacing:-.04em;
+  letter-spacing:-.045em;
   color:#45486e;
   font-synthesis:none;
 }
 *{box-sizing:border-box}
 html{min-height:100%;background:#e2cdd1}
 body{
-  margin:0;
-  min-height:100svh;
-  background:linear-gradient(
-    169deg,
-    #e7c9ca 0%,
-    #e2cdd1 34%,
-    #d9d0dc 68%,
-    #ccd5e7 100%
-  );
+  margin:0;min-height:100svh;
+  background:linear-gradient(169deg,#e7c9ca 0%,#e2cdd1 34%,#d9d0dc 68%,#ccd5e7 100%);
   background-attachment:fixed;
 }
 button,a{
-  font:inherit;
-  letter-spacing:inherit;
+  font:inherit;letter-spacing:inherit;
   -webkit-tap-highlight-color:transparent;
   touch-action:manipulation;
 }
 button{cursor:pointer}
 button:disabled{cursor:not-allowed;opacity:.35}
 button:focus-visible,a:focus-visible{
-  outline:3px solid #7770a7;
-  outline-offset:3px;
+  outline:3px solid #7770a7;outline-offset:3px;
 }
 .shell{
   width:min(100%,780px);
@@ -48,348 +38,334 @@ button:focus-visible,a:focus-visible{
   margin:auto;
   padding:clamp(65px,8vw,110px) 24px 70px;
 }
-header{
-  text-align:center;
-  margin-bottom:75px;
-}
+header{text-align:center;margin-bottom:75px}
 .eyebrow{
   font-size:clamp(19px,4vw,35px);
-  color:#a0a7c3;
-  font-weight:800;
-  margin:0 0 9px;
+  color:#9da5c0;font-weight:800;margin:0 0 9px;
 }
 h1{
   font-size:clamp(29px,6.3vw,53px);
-  font-weight:900;
-  color:#45486e;
-  margin:0;
-  line-height:1.15;
+  font-weight:900;color:#45486e;
+  margin:0;line-height:1.15;
 }
 .subtitle{
   font-size:clamp(14px,2.7vw,23px);
-  color:#a0a7c3;
-  font-weight:750;
-  line-height:1.35;
-  margin:27px 0 0;
+  color:#9da5c0;font-weight:750;
+  line-height:1.35;margin:27px 0 0;
 }
-.content{
-  width:100%;
-  max-width:576px;
-  margin:auto;
-}
+.content{width:100%;max-width:576px;margin:auto}
 .panel{
   background:rgba(125,119,132,.14);
   border-radius:25px;
-  padding:42px 48px;
-  text-align:center;
+  padding:42px 48px;text-align:center;
 }
 .pill{
-  display:table;
-  margin:0 auto 25px;
-  padding:10px 36px;
-  border-radius:99px;
-  background:#fff;
-  color:#a78594;
-  font-size:23px;
-  font-weight:850;
+  display:table;margin:0 auto 25px;
+  padding:10px 28px;border-radius:99px;
+  background:#fff;color:#a78594;
+  font-size:clamp(17px,3vw,23px);font-weight:850;
 }
-.menu-btn,.option,.primary,.secondary{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:100%;
-  border-radius:15px;
-  text-align:center;
-  text-decoration:none;
-  font-weight:900;
+.menu-btn,.primary,.secondary{
+  display:flex;align-items:center;justify-content:center;
+  width:100%;border-radius:17px;
+  text-align:center;text-decoration:none;font-weight:900;
 }
 .menu-btn{
-  min-height:64px;
-  background:white;
-  border:2px solid #c7b5c1;
-  color:#80566f;
-  font-size:25px;
+  min-height:64px;background:#fff;
+  border:2px solid #c7b5c1;color:#80566f;
+  font-size:clamp(18px,3.5vw,25px);
   margin:9px 0;
 }
 .primary{
-  min-height:95px;
-  background:#fff;
-  border:4px solid #b9acba;
-  color:#7770a7;
-  font-size:clamp(26px,5vw,39px);
-  margin-top:34px;
+  min-height:82px;background:#fff;
+  border:3px solid #b9acba;color:#7770a7;
+  font-size:clamp(22px,4.4vw,33px);
+  letter-spacing:-.075em;margin-top:24px;
 }
 .secondary{
-  min-height:80px;
+  min-height:75px;
   background:rgba(125,119,132,.13);
-  border:0;
-  color:#60618f;
+  border:0;color:#60618f;
   font-size:clamp(20px,4vw,29px);
-  margin-top:20px;
+  margin-top:18px;
 }
-.menu-btn:active,.option:active,
-.primary:active,.secondary:active{
+.menu-btn:active,.primary:active,.secondary:active{
   transform:scale(.99);
 }
 .screen{display:none}
 .screen.active{display:block}
+
+/* 게임 중 헤더 */
+body.game-active .shell{
+  padding-top:clamp(42px,7vw,75px);
+}
+body.game-active header{margin-bottom:42px}
+body.game-active .subtitle{display:none}
+
+/* 설정 팝업 */
 .overlay{
-  position:fixed;
-  inset:0;
-  z-index:20;
-  display:none;
-  align-items:center;
-  justify-content:center;
+  position:fixed;inset:0;z-index:20;
+  display:none;align-items:center;justify-content:center;
   background:rgba(47,43,59,.15);
-  padding:22px;
+  padding:22px;overflow-y:auto;
 }
 .overlay.active{display:flex}
 .modal{
   width:min(100%,480px);
-  padding:42px 34px;
-  border:4px solid white;
-  border-radius:25px;
+  max-height:calc(100svh - 44px);
+  overflow-y:auto;padding:34px 30px 30px;
+  border:4px solid #fff;border-radius:25px;
   background:rgba(199,190,199,.97);
   text-align:center;
 }
 .modal h2{
-  color:#743c54;
-  font-size:25px;
-  font-weight:900;
-  margin:8px 0 30px;
+  color:#743c54;font-size:clamp(21px,4vw,27px);
+  font-weight:900;margin:5px 0 25px;
 }
 .option{
-  min-height:70px;
-  background:white;
-  border:2px solid transparent;
-  color:#596c9b;
-  font-size:24px;
-  margin:8px 0;
+  display:flex;align-items:center;justify-content:center;
+  width:100%;min-height:65px;padding:12px 10px;
+  background:#fff;border:2px solid transparent;
+  border-radius:15px;color:#596c9b;
+  font-size:clamp(18px,3.6vw,23px);
+  font-weight:850;margin:9px 0;line-height:1.25;
 }
 .option.selected{
-  border-color:#7770a7;
-  background:#f4f1fa;
+  border-color:#7770a7;background:#f4f1fa;
 }
-.option:disabled{opacity:.28}
 .option.confirm{
-  margin-top:20px;
-  background:#f4f0f5;
-  border:2px solid #b9acba;
-  color:#743c54;
+  margin-top:22px;background:#f4f0f5;
+  border:2px solid #b9acba;color:#743c54;
+}
+.modal-note{
+  font-size:13px;font-weight:700;
+  color:#7e6b79;line-height:1.5;margin:12px 0 0;
+}
+.round-custom{
+  margin-top:12px;padding:13px 14px 15px;
+  background:rgba(255,255,255,.35);border-radius:16px;
+}
+.round-custom-label{
+  display:block;font-weight:850;font-size:17px;
+  color:#76576b;margin-bottom:12px;
 }
 .counter{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:7px;
-  min-height:70px;
-  background:white;
-  border-radius:13px;
-  margin:8px 0;
+  display:flex;align-items:center;
+  justify-content:center;gap:9px;
 }
 .counter button,.counter span{
-  border:2px solid #dedee1;
-  border-radius:13px;
-  background:#fff;
-  color:#596c9b;
-  font-size:22px;
-  font-weight:850;
-  min-height:44px;
+  border:2px solid #d9d7de;border-radius:12px;
+  background:#fff;color:#596c9b;
+  font-size:clamp(19px,3.8vw,24px);
+  font-weight:850;min-height:46px;
 }
-.counter button{width:44px}
-.counter span{
-  padding:9px 22px;
-  min-width:120px;
+.counter button{width:46px;flex-shrink:0}
+.counter span{padding:9px 13px;min-width:110px}
+.custom-select{
+  width:100%;min-height:48px;
+  border:2px solid #a99cb4;background:#f4f1fa;
+  border-radius:12px;color:#596c9b;
+  font-weight:850;font-size:17px;margin-top:13px;
 }
+.custom-select.selected{
+  border-color:#7770a7;background:#eae6f5;
+}
+.readonly-row{
+  display:flex;align-items:center;justify-content:center;
+  min-height:65px;padding:12px 10px;
+  background:#fff;border-radius:15px;
+  color:#596c9b;font-size:clamp(18px,3.6vw,23px);
+  font-weight:850;margin:10px 0;
+}
+.readonly-row::before{
+  content:'✓';font-size:17px;color:#7770a7;
+  margin-right:10px;
+}
+
+/* 게임 규칙 */
 .rules{
   font-size:clamp(14px,2.8vw,21px);
-  font-weight:750;
-  color:#9c8da1;
-  line-height:2.05;
+  font-weight:750;color:#9c8da1;line-height:2.05;
 }
 .rules p{margin:0 0 5px}
+
+/* 라운드 및 시간 표시 */
 .status{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
+  display:flex;align-items:center;
+  justify-content:space-between;
+  gap:12px;
   background:rgba(125,119,132,.14);
-  padding:27px 14px;
-  border-radius:25px;
-  margin-bottom:17px;
+  padding:18px 20px;border-radius:25px;
+  margin-bottom:16px;
 }
-.status span{
-  flex:1;
-  background:#fff;
-  border-radius:13px;
-  padding:11px 5px;
+.status .round-chip{
+  flex:0 0 auto;
+  background:#fff;border-radius:13px;
+  padding:12px 18px;
+  font-size:clamp(15px,3vw,23px);
+  font-weight:850;color:#a78594;
+  white-space:nowrap;
+}
+.status .time-combined{
+  display:flex;align-items:center;
+  justify-content:space-between;
+  flex:1;min-width:0;gap:12px;
+  padding:12px 18px;
+  border-radius:13px;background:#fff;
+  color:#a78594;
   font-size:clamp(15px,3vw,23px);
   font-weight:850;
-  color:#a78594;
-  text-align:center;
 }
-.status span:last-child{color:#8792aa}
-.status i{
-  width:2px;
-  height:29px;
-  background:#a9a3b3;
-  margin:0 6px;
+.time-combined strong{
+  color:#8792aa;font-weight:900;
+  font-variant-numeric:tabular-nums;
+  white-space:nowrap;
 }
+
+/* 사진 및 선택지 */
 .photo-box,.answer-box,.result-box{
-  width:100%;
-  border:4px solid #fff;
+  width:100%;border:4px solid #fff;
   border-radius:24px;
   background:rgba(125,119,132,.14);
   overflow:hidden;
 }
-.photo-box{aspect-ratio:1/0.9}
+.photo-box{aspect-ratio:1/.9}
 .photo-box img{
-  width:100%;
-  height:100%;
-  display:block;
-  object-fit:cover;
-  object-position:center 35%;
+  width:100%;height:100%;display:block;
+  object-fit:cover;object-position:center 35%;
 }
-.answer-box{
-  padding:42px 12%;
-  text-align:center;
-}
+.answer-box{padding:42px 12%;text-align:center}
 .answer-box h2{
-  color:#48333f;
-  font-size:24px;
-  font-weight:900;
-  margin:5px 0 33px;
+  color:#48333f;font-size:24px;
+  font-weight:900;margin:5px 0 33px;
 }
 .answer-choice{
-  width:100%;
-  min-height:64px;
+  width:100%;min-height:64px;
   border:2px solid transparent;
-  background:#fff;
-  border-radius:13px;
-  color:#956b80;
-  font-weight:850;
+  background:#fff;border-radius:13px;
+  color:#956b80;font-weight:850;
   font-size:clamp(17px,3vw,24px);
-  margin:4px 0;
-  overflow-wrap:anywhere;
+  margin:4px 0;overflow-wrap:anywhere;
 }
 .answer-choice:active{background:#f1edf5}
+
+/* 결과 화면 - 여백 축소 */
 .result-box{
-  padding:75px 14%;
-  text-align:center;
+  padding:38px 12% 42px;text-align:center;
 }
 .result-box h2{
   color:#48333f;
-  font-size:clamp(25px,5vw,38px);
-  font-weight:900;
-  margin:0 0 52px;
+  font-size:clamp(24px,4.5vw,33px);
+  font-weight:900;margin:0 0 25px;
 }
 .result-banner{
-  background:#fff;
-  border:2px solid #bbaab9;
-  border-radius:13px;
-  padding:17px 8px;
-  font-size:clamp(23px,4vw,31px);
-  font-weight:900;
-  color:#7770a7;
-  margin-bottom:23px;
+  background:#fff;border:2px solid #bbaab9;
+  border-radius:13px;padding:12px 8px;
+  font-size:clamp(21px,4vw,28px);
+  font-weight:900;color:#7770a7;
+  margin-bottom:14px;
 }
 .stats{
-  display:grid;
-  grid-template-columns:40% 60%;
-  gap:8px;
+  display:grid;grid-template-columns:40% 60%;
+  gap:6px;
 }
 .stats div{
-  min-height:63px;
-  background:#fff;
-  border-radius:13px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:9px;
-  font-size:clamp(18px,3vw,25px);
-  font-weight:850;
-  color:#956b80;
+  min-height:46px;background:#fff;
+  border-radius:13px;display:flex;
+  align-items:center;justify-content:center;
+  padding:7px;font-size:clamp(16px,2.8vw,21px);
+  font-weight:850;color:#956b80;
 }
 .message{
-  color:#80566f;
-  font-weight:750;
-  text-align:center;
-  line-height:1.6;
+  color:#80566f;font-weight:750;
+  text-align:center;line-height:1.6;
+  margin:14px 0 0;
+}
+
+/* 공유 버튼 통일 */
+#final .primary{
+  min-height:72px;border:3px solid #b9acba;
+  border-radius:17px;
+  font-size:clamp(20px,4.2vw,29px);
+  letter-spacing:-.075em;
 }
 footer{
-  margin-top:110px;
-  text-align:center;
-  color:#a6a2b4;
-  font-size:13px;
-  font-weight:600;
+  margin-top:110px;text-align:center;
+  color:#a6a2b4;font-size:13px;font-weight:600;
 }
 @media(max-width:560px){
   .shell{padding:65px 17px 40px}
   header{margin-bottom:65px}
   .content{padding:0 12px}
   .panel{padding:32px 23px}
-  .pill{font-size:19px;padding:9px 22px}
+  .pill{font-size:18px;padding:9px 18px}
   .menu-btn{font-size:20px;min-height:60px}
-  .primary{min-height:75px;margin-top:20px}
+  .primary{
+    min-height:72px;margin-top:20px;
+    border-width:3px;
+    font-size:clamp(20px,5.3vw,28px);
+  }
   .secondary{min-height:67px;margin-top:13px}
-  .modal{padding:35px 23px}
+  .modal{padding:29px 21px 24px}
   .modal h2{font-size:21px}
-  .option{font-size:20px;min-height:62px}
+  .option{font-size:20px;min-height:60px}
   .answer-box{padding:35px 9%}
   .answer-box h2{font-size:20px}
-  .result-box{padding:55px 11%}
-  .status{padding:17px 9px}
-  .status span{font-size:16px}
+  body.game-active .shell{padding-top:40px}
+  body.game-active header{margin-bottom:35px}
+  .status{padding:13px 14px;gap:12px}
+  .status .round-chip{
+    padding:11px 12px;font-size:15px;
+  }
+  .status .time-combined{
+    padding:11px 12px;gap:8px;font-size:15px;
+  }
+  .result-box{padding:29px 9% 32px}
+  .result-box h2{font-size:24px;margin-bottom:21px}
+  .result-banner{
+    padding:11px 7px;margin-bottom:12px;font-size:22px;
+  }
+  .stats div{min-height:43px;font-size:17px;padding:6px}
+  #final .primary{
+    min-height:69px;border-width:3px;
+    font-size:clamp(19px,5vw,25px);
+  }
+}
+@media(max-width:355px){
+  .status{gap:7px;padding:11px 9px}
+  .status .round-chip,
+  .status .time-combined{
+    padding:10px 8px;font-size:13px;
+  }
+  .result-box{padding-left:7%;padding-right:7%}
 }
 </style>
 </head>
-
 <body>
 <main class="shell">
-
 <header>
-<p class="eyebrow">어? 익숙한데 어느 앨범이지?</p>
-<h1>컨포로 앨범 매치시키기</h1>
-<p class="subtitle" id="subtitle">
-곧 데뷔 13년차를 맞는 세븐틴의 컨포는 무궁무진하다!<br>
-컨포만 보고 어느 앨범인지 매치시킬 수 있을까요?
-</p>
+  <p class="eyebrow">어? 익숙한데 어느 앨범이지?</p>
+  <h1>컨포로 앨범 매치시키기</h1>
+  <p class="subtitle">
+    곧 데뷔 13년차를 맞는 세븐틴의 컨포는 무궁무진하다!<br>
+    컨포만 보고 어느 앨범인지 매치시킬 수 있을까요?
+  </p>
 </header>
 
 <div class="content">
 
-<!-- 게임 설정 -->
 <section id="settings" class="screen active">
   <div class="panel">
     <div class="pill">게임 진행 방식을 설정합니다</div>
-
-    <button class="menu-btn" onclick="openModal('album')">
-      게임에 포함되는 앨범 설정
-    </button>
-
-    <button class="menu-btn" onclick="openModal('round')">
-      게임 라운드 설정
-    </button>
-
-    <button class="menu-btn" onclick="openModal('time')">
-      게임 제한시간 설정
-    </button>
-
-    <button class="menu-btn" onclick="openModal('default')">
-      기본 설정으로 게임 진행하기
-    </button>
+    <button class="menu-btn" onclick="openModal('album')">게임에 포함되는 앨범 설정</button>
+    <button class="menu-btn" onclick="openModal('round')">게임 라운드 설정</button>
+    <button class="menu-btn" onclick="openModal('time')">게임 제한시간 설정</button>
+    <button class="menu-btn" onclick="openModal('default')">기본 설정으로 게임 진행하기</button>
   </div>
-
-  <button class="primary" onclick="openRules()">
-    설정 확인 후 게임 시작하기
-  </button>
-
-  <a class="secondary" href="../">
-    메인화면으로 돌아가기
-  </a>
+  <button class="primary" onclick="openRules()">설정 확인 후 게임 시작하기</button>
+  <a class="secondary" href="../">메인화면으로 돌아가기</a>
 </section>
 
-<!-- 게임 규칙 -->
 <section id="rules" class="screen">
   <div class="panel">
     <div class="pill">게임 규칙을 설명합니다</div>
@@ -398,112 +374,78 @@ footer{
       <p>2. 정답을 생각 후, 제한시간 내에 선택지에서 고릅니다.</p>
       <p>3. 제한시간 내에 선택하지 못했을 경우 0점 처리됩니다.</p>
       <p>4. 정답일 경우 214점, 오답일 경우 0점 처리됩니다.</p>
-      <p>5. 모든 라운드 종료 후, 순위를 확인할 수 있습니다.</p>
+      <p>5. 모든 라운드 종료 후, 결과를 확인할 수 있습니다.</p>
     </div>
   </div>
-
-  <button class="primary" id="start-button" onclick="startGame()">
-    게임 진짜 시작하기
-  </button>
-
-  <a class="secondary" href="../">
-    메인화면으로 돌아가기
-  </a>
+  <button class="primary" id="start-button" onclick="startGame()">게임 진짜 시작하기</button>
+  <button class="secondary" onclick="showScreen('settings')">게임 설정 화면으로 돌아가기</button>
+  <a class="secondary" href="../">메인화면으로 돌아가기</a>
 </section>
 
-<!-- 컨셉 포토 화면 -->
 <section id="playing" class="screen">
   <div class="status">
-    <span id="round-label">1라운드</span>
-    <i></i>
-    <span>제한시간</span>
-    <span id="clock">00:20</span>
+    <span class="round-chip" id="round-label">1라운드</span>
+    <div class="time-combined">
+      <span>제한시간</span>
+      <strong id="clock">00:20</strong>
+    </div>
   </div>
-
   <div class="photo-box">
     <img id="concept-photo" alt="세븐틴 앨범 컨셉 포토">
   </div>
-
-  <button class="primary" onclick="showAnswers()">
-    정답 고르기
-  </button>
-
-  <a class="secondary" href="../"
-     onclick="return confirm('진행 중인 게임을 종료할까요?')">
-    메인화면으로 돌아가기
-  </a>
+  <button class="primary" onclick="showAnswers()">정답 고르기</button>
+  <a class="secondary" href="../" onclick="return confirm('진행 중인 게임을 종료할까요?')">메인화면으로 돌아가기</a>
 </section>
 
-<!-- 정답 선택 화면 -->
 <section id="answering" class="screen">
   <div class="status">
-    <span id="answer-round">1라운드</span>
-    <i></i>
-    <span>제한시간</span>
-    <span id="answer-clock">00:20</span>
+    <span class="round-chip" id="answer-round">1라운드</span>
+    <div class="time-combined">
+      <span>제한시간</span>
+      <strong id="answer-clock">00:20</strong>
+    </div>
   </div>
-
   <div class="answer-box">
     <h2>제한시간 내 정답을 골라주세요!</h2>
     <div id="choices"></div>
   </div>
-
-  <button class="primary" id="back-photo" onclick="showPhoto()">
-    다시 컨셉 포토 확인하기
-  </button>
-
-  <a class="secondary" href="../"
-     onclick="return confirm('진행 중인 게임을 종료할까요?')">
-    메인화면으로 돌아가기
-  </a>
+  <button class="primary" id="back-photo" onclick="showPhoto()">다시 컨셉 포토 확인하기</button>
+  <a class="secondary" href="../" onclick="return confirm('진행 중인 게임을 종료할까요?')">메인화면으로 돌아가기</a>
 </section>
 
-<!-- 라운드별 결과 -->
 <section id="round-result" class="screen">
   <div class="status">
-    <span id="result-round">1라운드</span>
-    <i></i>
-    <span>제한시간</span>
-    <span id="result-clock">00:00</span>
+    <span class="round-chip" id="result-round">1라운드</span>
+    <div class="time-combined">
+      <span>제한시간</span>
+      <strong id="result-clock">00:00</strong>
+    </div>
   </div>
-
   <div class="result-box">
     <h2 id="result-heading">1라운드 결과 안내</h2>
-    <div class="result-banner" id="result-message">
-      정답입니다!
-    </div>
-
+    <div class="result-banner" id="result-message">정답입니다!</div>
     <div class="stats">
       <div>획득 점수</div>
       <div id="earned">0점</div>
       <div>누적 점수</div>
       <div id="total">0점</div>
     </div>
-
     <p class="message" id="correct-album"></p>
   </div>
-
-  <button class="primary" id="next-round" onclick="nextRound()">
-    다음 라운드로 넘어가기
-  </button>
-
-  <a class="secondary" href="../">
-    메인화면으로 돌아가기
-  </a>
+  <button class="primary" id="next-round" onclick="nextRound()">다음 라운드로 넘어가기</button>
+  <a class="secondary" href="../">메인화면으로 돌아가기</a>
 </section>
 
-<!-- 최종 결과 -->
 <section id="final" class="screen">
   <div class="status">
-    <span>게임종료!</span>
-    <i></i>
-    <span>제한시간</span>
-    <span>00:00</span>
+    <span class="round-chip">게임종료!</span>
+    <div class="time-combined">
+      <span>제한시간</span>
+      <strong>00:00</strong>
+    </div>
   </div>
-
   <div class="result-box">
     <h2>최종 결과 안내</h2>
-
     <div class="stats">
       <div>진행 라운드</div>
       <div id="final-rounds">0라운드</div>
@@ -515,49 +457,27 @@ footer{
       <div id="final-score">0점</div>
     </div>
   </div>
-
-  <button class="primary" onclick="shareResult()">
-    트위터에 결과 공유하기
-  </button>
-
-  <a class="secondary" href="../">
-    메인화면으로 돌아가기
-  </a>
-
-  <button class="secondary" onclick="resetGame()">
-    컨포 게임 설정 화면으로 돌아가기
-  </button>
+  <button class="primary" onclick="shareResult()">트위터에 결과 공유하기</button>
+  <a class="secondary" href="../">메인화면으로 돌아가기</a>
+  <button class="secondary" onclick="resetGame()">컨포 게임 설정 화면으로 돌아가기</button>
 </section>
 
 </div>
-
 <footer>SVTCHIVE @SVTCHIVE0526</footer>
 </main>
 
-<!-- 설정 팝업 -->
-<div class="overlay" id="overlay">
+<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
   <div class="modal">
     <h2 id="modal-title"></h2>
     <div id="modal-options"></div>
-
-    <button class="option confirm" onclick="closeModal()">
-      게임을 진행합니다
-    </button>
+    <button class="option confirm" onclick="closeModal(true)">게임을 진행합니다</button>
   </div>
 </div>
 
-<audio
-  id="bgm"
-  preload="auto"
-  src="./audio/Guilty%20Pleasure.mp4">
-</audio>
+<audio id="bgm" preload="auto" src="./audio/Guilty%20Pleasure.mp4"></audio>
 
 <script>
 'use strict';
-
-/* =========================================
-   기본 설정
-========================================= */
 
 const DEFAULTS={
   album:'한국 앨범으로 한정',
@@ -567,14 +487,14 @@ const DEFAULTS={
 };
 
 let settings={...DEFAULTS};
-
+let draft=null;
+let modalType=null;
 let albums=[];
 let questions=[];
 let currentIndex=0;
 let correctCount=0;
 let wrongCount=0;
 let totalScore=0;
-
 let remaining=20;
 let deadline=0;
 let timer=null;
@@ -582,588 +502,400 @@ let expired=false;
 let answered=false;
 let currentQuestion=null;
 let currentOptions=[];
+let lastCorrectPosition=-1;
 
 const $=id=>document.getElementById(id);
 const bgm=$('bgm');
-
-/* =========================================
-   공통 기능
-========================================= */
 
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(el=>{
     el.classList.toggle('active',el.id===id);
   });
+  document.body.classList.toggle(
+    'game-active',
+    ['playing','answering','round-result','final'].includes(id)
+  );
   window.scrollTo(0,0);
 }
 
 function shuffle(arr){
   const a=[...arr];
-
   for(let i=a.length-1;i>0;i--){
     const j=Math.floor(Math.random()*(i+1));
     [a[i],a[j]]=[a[j],a[i]];
   }
-
   return a;
 }
-
 function randomInt(min,max){
-  return Math.floor(
-    Math.random()*(max-min+1)
-  )+min;
+  return Math.floor(Math.random()*(max-min+1))+min;
 }
 
-/* =========================================
-   설정 팝업
-========================================= */
+function optionButton(label,selected,click,disabled=false){
+  const b=document.createElement('button');
+  b.type='button';
+  b.className='option'+(selected?' selected':'');
+  b.textContent=label;
+  b.disabled=disabled;
+  b.setAttribute('aria-pressed',String(selected));
+  b.addEventListener('click',click);
+  $('modal-options').appendChild(b);
+  return b;
+}
 
 function openModal(type){
+  modalType=type;
+  draft=type==='default'?{...DEFAULTS}:{...settings};
+  renderModal();
+  $('overlay').classList.add('active');
+}
+
+function renderModal(){
   const box=$('modal-options');
   box.innerHTML='';
-
   const titles={
     album:'게임에 포함되는 앨범 설정',
     round:'게임 라운드 설정',
     time:'게임 제한시간 설정',
     default:'기본 설정으로 게임 진행하기'
   };
+  $('modal-title').textContent=titles[modalType];
 
-  $('modal-title').textContent=titles[type];
-
-  function add(label,action,disabled=false,selected=false){
-    const b=document.createElement('button');
-
-    b.className='option'+(selected?' selected':'');
-    b.textContent=label;
-    b.disabled=disabled;
-    b.onclick=action;
-
-    box.appendChild(b);
-    return b;
+  if(modalType==='album'){
+    optionButton('한국 앨범으로 한정',true,()=>{});
+    optionButton('한국 앨범 + 일본 앨범',false,()=>{},true);
+    optionButton('랜덤으로 출제하기',false,()=>{},true);
   }
 
-  if(type==='album'){
-    add('한국 앨범으로 한정',()=>{
-      settings.album='한국 앨범으로 한정';
-      closeModal();
-    },false,true);
+  if(modalType==='round'){
+    optionButton(
+      '기본 라운드 *13라운드',
+      draft.roundMode==='default',
+      ()=>{
+        draft.roundMode='default';
+        draft.rounds=13;
+        renderModal();
+      }
+    );
+    optionButton(
+      '랜덤 라운드 *1~26라운드',
+      draft.roundMode==='random',
+      ()=>{
+        draft.roundMode='random';
+        renderModal();
+      }
+    );
 
-    add('한국 앨범 + 일본 앨범',()=>{},true);
-    add('랜덤으로 출제하기',()=>{},true);
-  }
-
-  if(type==='round'){
-    add('기본 라운드 *13라운드',()=>{
-      settings.roundMode='default';
-      settings.rounds=13;
-      closeModal();
-    },false,settings.roundMode==='default');
-
-    add('랜덤 라운드 *1~26라운드',()=>{
-      settings.roundMode='random';
-      closeModal();
-    },false,settings.roundMode==='random');
-
-    const counter=document.createElement('div');
-    counter.className='counter';
-
-    counter.innerHTML=`
-      <button id="minus" type="button">-</button>
-      <span id="round-count">${settings.rounds}라운드</span>
-      <button id="plus" type="button">+</button>
+    const group=document.createElement('div');
+    group.className='round-custom';
+    group.innerHTML=`
+      <span class="round-custom-label">지정 라운드 설정 (1~26라운드)</span>
+      <div class="counter">
+        <button type="button" id="minus" aria-label="라운드 줄이기">−</button>
+        <span id="round-count"></span>
+        <button type="button" id="plus" aria-label="라운드 늘리기">+</button>
+      </div>
+      <button type="button" id="custom-select" class="custom-select">
+        지정 라운드로 진행
+      </button>
     `;
+    box.appendChild(group);
 
-    box.appendChild(counter);
+    $('minus').onclick=()=>{
+      draft.rounds=Math.max(1,draft.rounds-1);
+      draft.roundMode='custom';
+      renderModal();
+    };
+    $('plus').onclick=()=>{
+      draft.rounds=Math.min(26,draft.rounds+1);
+      draft.roundMode='custom';
+      renderModal();
+    };
+    $('custom-select').onclick=()=>{
+      draft.roundMode='custom';
+      renderModal();
+    };
+    $('round-count').textContent=draft.rounds+'라운드';
+    $('minus').disabled=draft.rounds<=1;
+    $('plus').disabled=draft.rounds>=26;
+    $('custom-select').classList.toggle(
+      'selected',draft.roundMode==='custom'
+    );
+  }
 
-    function change(n){
-      settings.rounds=Math.max(
-        1,Math.min(26,settings.rounds+n)
-      );
-
-      settings.roundMode='custom';
-      $('round-count').textContent=
-        settings.rounds+'라운드';
+  if(modalType==='time'){
+    for(const [value,label] of [
+      ['13','13초'],['20','20초'],['random','13~20초 중 랜덤']
+    ]){
+      optionButton(label,draft.timeMode===value,()=>{
+        draft.timeMode=value;
+        renderModal();
+      });
     }
-
-    $('minus').onclick=()=>change(-1);
-    $('plus').onclick=()=>change(1);
-
-    add('지정 라운드로 진행',()=>{
-      settings.roundMode='custom';
-      closeModal();
-    },false,settings.roundMode==='custom');
   }
 
-  if(type==='time'){
-    add('13초',()=>{
-      settings.timeMode='13';
-      closeModal();
-    },false,settings.timeMode==='13');
-
-    add('20초',()=>{
-      settings.timeMode='20';
-      closeModal();
-    },false,settings.timeMode==='20');
-
-    add('13~20초 중 랜덤',()=>{
-      settings.timeMode='random';
-      closeModal();
-    },false,settings.timeMode==='random');
+  if(modalType==='default'){
+    for(const label of [
+      '한국 앨범으로 한정',
+      '13라운드로 진행',
+      '20초 제한시간'
+    ]){
+      const div=document.createElement('div');
+      div.className='readonly-row';
+      div.textContent=label;
+      box.appendChild(div);
+    }
+    const note=document.createElement('p');
+    note.className='modal-note';
+    note.textContent='위 설정으로 초기화됩니다. 아래 확인 버튼을 누르면 적용됩니다.';
+    box.appendChild(note);
   }
-
-  if(type==='default'){
-    settings={...DEFAULTS};
-
-    add('한국 앨범으로 한정',()=>{},true);
-    add('13라운드로 진행',()=>{},true);
-    add('20초 제한시간',()=>{},true);
-  }
-
-  $('overlay').classList.add('active');
 }
 
-function closeModal(){
+function closeModal(apply=false){
+  if(apply&&draft)settings={...draft};
+  draft=null;
+  modalType=null;
   $('overlay').classList.remove('active');
 }
+function openRules(){showScreen('rules')}
 
-function openRules(){
-  closeModal();
-  showScreen('rules');
-}
-
-/* =========================================
-   photos.json 연결
-   GitHub API 사용하지 않음
-========================================= */
-
+/* 사진 목록 */
 async function loadAlbums(){
-  const response=await fetch(
-    './photos.json',
-    {cache:'no-store'}
-  );
-
+  const response=await fetch('./photos.json',{cache:'no-store'});
   if(!response.ok){
-    throw new Error(
-      '사진 목록을 읽을 수 없습니다. HTTP '+
-      response.status
-    );
+    throw new Error('사진 목록을 읽을 수 없습니다. HTTP '+response.status);
   }
-
   const data=await response.json();
-
   if(!data||!Array.isArray(data.albums)){
-    throw new Error(
-      'photos.json 형식이 올바르지 않습니다.'
-    );
+    throw new Error('photos.json 형식이 올바르지 않습니다.');
   }
-
-  const result=data.albums.map(album=>{
-    const photos=album.photos.map(path=>{
-      const encoded=path
-        .split('/')
-        .map(encodeURIComponent)
-        .join('/');
-
-      return './photos/'+encoded;
-    });
-
-    return {
-      name:album.name,
-      photos:photos
-    };
-  }).filter(album=>album.photos.length>0);
-
-  return result;
+  return data.albums.map(album=>({
+    name:album.name,
+    photos:(Array.isArray(album.photos)?album.photos:[])
+      .map(path=>'./photos/'+path.split('/').map(encodeURIComponent).join('/'))
+  })).filter(album=>album.photos.length>0);
 }
-
-/* =========================================
-   한국 앨범만 출제
-========================================= */
 
 const JAPANESE_ALBUMS=[
-  'WE MAKE YOU',
-  'HAPPY ENDING',
-  'Fallin Flower',
-  'Fallin’ Flower',
-  '24H',
-  'Not Alone',
-  'ひとりじゃない',
-  'POWER OF LOVE',
-  'DREAM',
-  'ALWAYS YOURS'
+  'WE MAKE YOU','HAPPY ENDING','Fallin Flower',
+  'Fallin’ Flower','24H','Not Alone','ひとりじゃない',
+  'POWER OF LOVE','DREAM','ALWAYS YOURS'
 ];
 
 function isKoreanAlbum(name){
-  const normalized=s=>s.toLowerCase()
-    .replace(/[\s'’"._\-]/g,'');
-
-  return !JAPANESE_ALBUMS.some(
-    japanese=>
-      normalized(japanese)===normalized(name)
-  );
+  const norm=s=>s.toLowerCase().replace(/[\s'’"._\-]/g,'');
+  return !JAPANESE_ALBUMS.some(j=>norm(j)===norm(name));
 }
 
-/* =========================================
-   문제 생성
-========================================= */
-
 function makeQuestions(){
-  const eligible=albums.filter(
-    a=>isKoreanAlbum(a.name)
-  );
-
+  const eligible=albums.filter(a=>isKoreanAlbum(a.name));
   const count=settings.roundMode==='random'
-    ?randomInt(1,26)
-    :settings.rounds;
+    ?randomInt(1,26):settings.rounds;
 
   if(eligible.length<5){
-    throw new Error(
-      '5지선다 출제를 위해 최소 5개의 한국 앨범이 필요합니다.'
-    );
+    throw new Error('5지선다 출제를 위해 최소 5개의 한국 앨범이 필요합니다.');
   }
-
   if(eligible.length<count){
-    throw new Error(
-      `중복 없이 ${count}라운드를 진행하려면 `+
-      `${count}개의 앨범이 필요하지만 `+
-      `현재 ${eligible.length}개만 확인되었습니다.`
-    );
+    throw new Error('중복 없이 '+count+'라운드를 진행하려면 '+count+
+      '개의 앨범이 필요하지만 현재 '+eligible.length+'개만 확인되었습니다.');
   }
 
-  const chosen=shuffle(eligible).slice(0,count);
-
-  questions=chosen.map(album=>({
+  questions=shuffle(eligible).slice(0,count).map(album=>({
     album:album.name,
     photo:shuffle(album.photos)[0],
     seconds:settings.timeMode==='random'
-      ?randomInt(13,20)
-      :Number(settings.timeMode)
+      ?randomInt(13,20):Number(settings.timeMode)
   }));
 }
 
-/* =========================================
-   게임 시작
-========================================= */
-
 async function startGame(){
   const btn=$('start-button');
-
   btn.disabled=true;
   btn.textContent='컨셉 포토 불러오는 중...';
-
   try{
     albums=await loadAlbums();
     makeQuestions();
-
     currentIndex=0;
     correctCount=0;
     wrongCount=0;
     totalScore=0;
-
+    lastCorrectPosition=-1;
     startRound();
-
   }catch(err){
-    alert(
-      '게임을 시작할 수 없습니다.\n\n'+
-      err.message
-    );
-
+    alert('게임을 시작할 수 없습니다.\n\n'+err.message);
   }finally{
     btn.disabled=false;
     btn.textContent='게임 진짜 시작하기';
   }
 }
 
-/* =========================================
-   음악
-========================================= */
-
 function stopMusic(){
   bgm.pause();
-  bgm.currentTime=0;
+  try{bgm.currentTime=0}catch(e){}
 }
-
 function playMusic(){
-  bgm.pause();
-  bgm.currentTime=0;
-
-  bgm.play().catch(()=>{
-    console.warn(
-      '브라우저에서 음악 재생을 차단했습니다.'
-    );
-  });
+  stopMusic();
+  bgm.play().catch(()=>{});
 }
-
-/* =========================================
-   타이머
-========================================= */
-
 function stopTimer(){
   if(timer!==null){
     clearInterval(timer);
     timer=null;
   }
 }
-
 function formatTime(seconds){
-  return '00:'+
-    String(
-      Math.ceil(Math.max(0,seconds))
-    ).padStart(2,'0');
+  return '00:'+String(Math.ceil(Math.max(0,seconds))).padStart(2,'0');
 }
-
 function updateClocks(){
   const t=formatTime(remaining);
-
   $('clock').textContent=t;
   $('answer-clock').textContent=t;
 }
-
 function tick(){
-  remaining=Math.max(
-    0,
-    (deadline-performance.now())/1000
-  );
-
+  if(answered||expired)return;
+  remaining=Math.max(0,(deadline-performance.now())/1000);
   updateClocks();
-
-  if(remaining<=0&&!expired&&!answered){
+  if(remaining<=0){
     expired=true;
     stopTimer();
     stopMusic();
-
     $('back-photo').disabled=true;
-
-    showAnswers();
+    renderAnswers();
+    showScreen('answering');
   }
 }
-
-/* =========================================
-   라운드 시작
-========================================= */
 
 function startRound(){
   stopTimer();
   stopMusic();
-
   answered=false;
   expired=false;
-
   currentQuestion=questions[currentIndex];
   remaining=currentQuestion.seconds;
 
   const round=currentIndex+1;
-
   $('round-label').textContent=round+'라운드';
   $('answer-round').textContent=round+'라운드';
 
   const img=$('concept-photo');
-
   img.src=currentQuestion.photo;
   img.alt='앨범을 맞혀야 하는 컨셉 포토';
-  img.style.objectPosition='center 35%';
 
-  const otherAlbums=shuffle(
-    albums.filter(
-      a=>isKoreanAlbum(a.name)&&
-      a.name!==currentQuestion.album
-    )
+  const others=shuffle(
+    albums.filter(a=>isKoreanAlbum(a.name)&&a.name!==currentQuestion.album)
   ).slice(0,4).map(a=>a.name);
 
-  currentOptions=shuffle([
-    currentQuestion.album,
-    ...otherAlbums
-  ]);
+  const positions=shuffle([0,1,2,3,4])
+    .filter(p=>p!==lastCorrectPosition);
+  const pos=positions[0];
+  lastCorrectPosition=pos;
+
+  currentOptions=[...others];
+  currentOptions.splice(pos,0,currentQuestion.album);
 
   $('back-photo').disabled=false;
   updateClocks();
-
   showScreen('playing');
 
   deadline=performance.now()+remaining*1000;
-
   timer=setInterval(tick,50);
   playMusic();
 }
 
-/* =========================================
-   정답 선택 화면
-========================================= */
+function renderAnswers(){
+  const box=$('choices');
+  box.innerHTML='';
+  currentOptions.forEach(option=>{
+    const btn=document.createElement('button');
+    btn.className='answer-choice';
+    btn.textContent=option;
+    btn.onclick=()=>submitAnswer(option);
+    box.appendChild(btn);
+  });
+  $('back-photo').disabled=expired;
+}
 
 function showAnswers(){
   if(answered)return;
-
   tick();
-
-  const box=$('choices');
-  box.innerHTML='';
-
-  currentOptions.forEach(option=>{
-    const btn=document.createElement('button');
-
-    btn.className='answer-choice';
-    btn.textContent=option;
-
-    btn.onclick=()=>submitAnswer(option);
-
-    box.appendChild(btn);
-  });
-
-  $('back-photo').disabled=expired;
+  renderAnswers();
   showScreen('answering');
 }
-
 function showPhoto(){
   if(expired||answered)return;
-
   tick();
-
-  if(!expired){
-    showScreen('playing');
-  }
+  if(!expired)showScreen('playing');
 }
-
-/* =========================================
-   정답 채점
-   제한시간 초과 시 0점
-========================================= */
 
 function submitAnswer(choice){
   if(answered)return;
-
   tick();
-
   answered=true;
-
   stopTimer();
   stopMusic();
 
-  const correct=
-    choice===currentQuestion.album;
+  const correct=choice===currentQuestion.album;
+  const earned=correct&&!expired?214:0;
 
-  const earned=
-    correct&&!expired?214:0;
-
-  if(earned===214){
-    correctCount++;
-  }else{
-    wrongCount++;
-  }
+  if(earned===214)correctCount++;
+  else wrongCount++;
 
   totalScore+=earned;
-
-  $('result-round').textContent=
-    (currentIndex+1)+'라운드';
-
-  $('result-clock').textContent=
-    formatTime(remaining);
-
-  $('result-heading').textContent=
-    (currentIndex+1)+'라운드 결과 안내';
-
-  $('result-message').textContent=
-    expired?'시간 초과!':
-    correct?'정답입니다!':'오답입니다!';
-
+  $('result-round').textContent=(currentIndex+1)+'라운드';
+  $('result-clock').textContent=formatTime(remaining);
+  $('result-heading').textContent=(currentIndex+1)+'라운드 결과 안내';
+  $('result-message').textContent=expired
+    ?'시간 초과!':correct?'정답입니다!':'오답입니다!';
   $('earned').textContent=earned+'점';
   $('total').textContent=totalScore+'점';
-
-  $('correct-album').textContent=
-    '정답: '+currentQuestion.album;
-
-  const last=
-    currentIndex===questions.length-1;
-
-  $('next-round').textContent=last
-    ?'최종 결과 보기'
-    :'다음 라운드로 넘어가기';
-
+  $('correct-album').textContent='정답: '+currentQuestion.album;
+  $('next-round').textContent=currentIndex===questions.length-1
+    ?'최종 결과 보기':'다음 라운드로 넘어가기';
   showScreen('round-result');
 }
 
-/* =========================================
-   다음 라운드
-========================================= */
-
 function nextRound(){
   currentIndex++;
-
-  if(currentIndex>=questions.length){
-    showFinal();
-  }else{
-    startRound();
-  }
+  if(currentIndex>=questions.length)showFinal();
+  else startRound();
 }
-
-/* =========================================
-   최종 결과
-========================================= */
-
 function showFinal(){
   stopTimer();
   stopMusic();
-
-  $('final-rounds').textContent=
-    questions.length+'라운드';
-
-  $('final-correct').textContent=
-    correctCount+'개';
-
-  $('final-wrong').textContent=
-    wrongCount+'개';
-
-  $('final-score').textContent=
-    totalScore+'점';
-
+  $('final-rounds').textContent=questions.length+'라운드';
+  $('final-correct').textContent=correctCount+'개';
+  $('final-wrong').textContent=wrongCount+'개';
+  $('final-score').textContent=totalScore+'점';
   showScreen('final');
 }
 
-/* =========================================
-   X(트위터) 공유
-========================================= */
-
 function shareResult(){
-  const gameURL=
-    'https://svtchive0526.github.io/seventeen-timing-challenge/game3/';
-
+  const url='https://svtchive0526.github.io/seventeen-timing-challenge/game3/';
   const text=[
-    '세븐틴 컨포로 앨범 매치! 💎',
-    '',
+    '세븐틴 컨포로 앨범 매치! 💎','',
     '진행 라운드: '+questions.length+'라운드',
     '정답 개수: '+correctCount+'개',
     '오답 개수: '+wrongCount+'개',
-    '누적 점수: '+totalScore+'점',
-    '',
-    '컨포 게임하러가기',
-    gameURL,
-    '',
+    '누적 점수: '+totalScore+'점','',
+    '컨포 게임하러가기',url,'',
     '#SEVENTEEN #세븐틴 @pledis_17'
   ].join('\n');
-
   window.open(
-    'https://twitter.com/intent/tweet?text='+
-    encodeURIComponent(text),
-    '_blank',
-    'noopener,noreferrer'
+    'https://twitter.com/intent/tweet?text='+encodeURIComponent(text),
+    '_blank','noopener,noreferrer'
   );
 }
-
-/* =========================================
-   게임 초기화
-========================================= */
-
 function resetGame(){
   stopTimer();
   stopMusic();
-
   settings={...DEFAULTS};
   questions=[];
   currentIndex=0;
-
+  correctCount=0;
+  wrongCount=0;
+  totalScore=0;
   showScreen('settings');
 }
 </script>
-
 </body>
 </html>
