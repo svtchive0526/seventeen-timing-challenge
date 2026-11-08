@@ -16,7 +16,7 @@
 'use strict';
 // Supabase Dashboard > Project Settings > API Keys에서 공개 가능한 키만 입력하세요.
 // secret / service_role 키는 절대 HTML에 넣지 마세요.
-const SUPABASE_URL='https://jgtdojplgladghivxtlj.supabase.co/rest/v1/';
+const SUPABASE_URL='https://jgtdojplgladghivxtlj.supabase.co';
 const SUPABASE_ANON_KEY='sb_publishable_HqfKuiZNaURv85pwsNoRCQ_YWn65ssu';
 const SCORE_FUNCTION_URL=SUPABASE_URL+'/functions/v1/game3-submit-score';
 const DEFAULTS={album:'한국 앨범으로 한정',roundMode:'default',rounds:13,timeMode:'20'};
@@ -25,7 +25,7 @@ let settings={...DEFAULTS},draft=null,modalType=null,albums=[],questions=[],curr
 const bgm=$('bgm');
 function getSupabase(){
  if(supabaseClient)return supabaseClient;
- if(!SUPABASE_URL.startsWith('https://')||SUPABASE_URL.includes('여기에_')||SUPABASE_ANON_KEY.includes('여기에_'))throw new Error('index.html에 Supabase URL과 Publishable Key를 입력해주세요.');
+ if(!/^https:\/\/[a-z0-9-]+\.supabase\.co\/?$/i.test(SUPABASE_URL)||SUPABASE_ANON_KEY.includes('여기에_'))throw new Error('index.html에 Supabase URL과 Publishable Key를 입력해주세요.');
  if(!window.supabase?.createClient)throw new Error('Supabase 라이브러리를 불러오지 못했습니다. 인터넷 연결을 확인해주세요.');
  supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:false}});
  return supabaseClient;
