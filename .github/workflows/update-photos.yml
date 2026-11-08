@@ -1,0 +1,90 @@
+
+name: Update Game 3 Photos
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'game3/photos/**'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate photo manifest
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("game3/photos")
+          output = Path("game3/photos.json")
+
+          extensions = {
+              ".png", ".jpg", ".jpeg",
+              ".webp", ".gif", ".avif"
+          }
+
+          albums = []
+
+          if root.exists():
+              for folder in sorted(root.iterdir()):
+                  if not folder.is_dir():
+                      continue
+
+                  photos = [
+                      p.relative_to(root).as_posix()
+                      for p in sorted(folder.rglob("*"))
+                      if p.is_file()
+                      and p.suffix.lower() in extensions
+                  ]
+
+                  if photos:
+                      albums.append({
+                          "name": folder.name,
+                          "photos": photos
+                      })
+
+          output.parent.mkdir(
+              parents=True, exist_ok=True
+          )
+
+          output.write_text(
+              json.dumps(
+                  {"albums": albums},
+                  ensure_ascii=False,
+                  indent=2
+              ) + "\n",
+              encoding="utf-8"
+          )
+
+          print("Albums:", len(albums))
+          print(
+              "Photos:",
+              sum(len(a["photos"]) for a in albums)
+          )
+          PY
+
+      - name: Commit photo manifest
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add game3/photos.json
+
+          if git diff --cached --quiet; then
+            echo "No changes"
+          else
+            git commit -m "Update Game 3 photo manifest"
+            git push
+          fi
