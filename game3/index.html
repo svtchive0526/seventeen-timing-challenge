@@ -660,6 +660,7 @@ async function savePlayerNickname(nickname) {
 let currentPlayer = null;
 
 async function registerNickname(){
+  async function registerNickname(){
   const input=$('nickname-input');
   const button=$('nickname-submit');
   const errorBox=$('nickname-error');
@@ -673,22 +674,32 @@ async function registerNickname(){
     return;
   }
 
+  if(currentPlayer){
+    showScreen('rules');
+    return;
+  }
+
   button.disabled=true;
   button.textContent='등록 중...';
 
   try{
     currentPlayer=await savePlayerNickname(nickname);
 
-$('player-display-code').textContent=
-  currentPlayer.displayCode;
+    $('player-display-code').textContent=
+      currentPlayer.displayCode;
 
-$('player-info').hidden=false;
+    $('player-info').hidden=false;
 
-button.textContent='게임 규칙 확인하기';
-button.disabled=false;
-button.onclick=()=>showScreen('rules');
+    button.textContent='게임 규칙 확인하기';
+
   }catch(error){
-    errorBox.textContent=error.message;
+    console.error('닉네임 등록 오류:',error);
+
+    errorBox.textContent=
+      error.message || '닉네임 등록에 실패했습니다.';
+
+    button.textContent='닉네임 등록하기';
+
   }finally{
     button.disabled=false;
   }
