@@ -341,6 +341,62 @@ footer{
   }
   .result-box{padding-left:7%;padding-right:7%}
 }
+
+  /* 참가자 닉네임 등록 */
+.nickname-description{
+  color:#80566f;
+  font-size:clamp(16px,3vw,21px);
+  font-weight:800;
+  line-height:1.5;
+  margin:0 0 22px;
+}
+
+.nickname-input{
+  width:100%;
+  min-height:64px;
+  padding:14px 18px;
+  border:2px solid #c7b5c1;
+  border-radius:15px;
+  background:#fff;
+  color:#596c9b;
+  font-family:inherit;
+  font-size:20px;
+  font-weight:800;
+  text-align:center;
+  outline:none;
+}
+
+.nickname-input:focus{
+  border-color:#7770a7;
+}
+
+.nickname-error{
+  color:#a34458;
+  font-size:14px;
+  font-weight:750;
+  min-height:20px;
+  margin:12px 0;
+}
+
+.player-info{
+  margin:18px 0;
+  padding:20px;
+  border:2px solid #c7b5c1;
+  border-radius:15px;
+  background:#fff;
+  color:#80566f;
+  text-align:center;
+  font-weight:800;
+}
+.player-info[hidden]{display:none}
+.player-info p{margin:8px 0}
+.player-info strong{
+  display:block;
+  font-size:32px;
+  letter-spacing:.15em;
+  color:#7770a7;
+}
+  
 </style>
 </head>
 <body>
@@ -368,6 +424,47 @@ footer{
   <a class="secondary" href="../">메인화면으로 돌아가기</a>
 </section>
 
+<!-- 참가자 닉네임 등록 화면 -->
+<section id="nickname-screen" class="screen">
+  <div class="panel">
+    <div class="pill">참가자 정보를 등록합니다</div>
+
+    <p class="nickname-description">
+      순위표에 표시할 닉네임을 입력해주세요!
+    </p>
+
+    <input
+      id="nickname-input"
+      class="nickname-input"
+      type="text"
+      maxlength="20"
+      placeholder="닉네임 (1~20자)"
+      autocomplete="nickname"
+    >
+
+<div id="player-info" class="player-info" hidden>
+  <p>참가자 등록이 완료되었습니다!</p>
+  <strong id="player-display-code"></strong>
+  <p>나만의 4자리 고유번호입니다.</p>
+</div>
+    
+    <p id="nickname-error" class="nickname-error"
+       role="alert"></p>
+
+    <button
+      id="nickname-submit"
+      class="menu-btn"
+      onclick="registerNickname()">
+      닉네임 등록하기
+    </button>
+  </div>
+
+  <button class="secondary"
+    onclick="showScreen('settings')">
+    게임 설정 화면으로 돌아가기
+  </button>
+</section>
+  
 <section id="rules" class="screen">
   <div class="panel">
     <div class="pill">게임 규칙을 설명합니다</div>
@@ -478,9 +575,125 @@ footer{
 
 <audio id="bgm" preload="auto" src="./audio/Guilty%20Pleasure.mp4"></audio>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
 <script>
 'use strict';
 
+  /* Supabase 연결 설정 */
+const SUPABASE_URL = '여기에_SUPABASE_PROJECT_URL';
+const SUPABASE_ANON_KEY = '여기에_SUPABASE_PUBLISHABLE_KEY';
+
+const SCORE_FUNCTION_URL =
+  SUPABASE_URL + '/functions/v1/game3-submit-score';
+  /* Supabase 클라이언트 초기화 */
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY,
+  {
+    auth: {
+      persistSession: true,
+      autoRefreshToken: true,
+      detectSessionInUrl: false
+    }
+  }
+);
+
+/* 익명 사용자 인증 */
+async function ensureAnonymousAuth() {
+  const {
+    data: { session },
+    error: sessionError
+  } = await supabaseClient.auth.getSession();
+
+  if (sessionError) {
+    throw sessionError;
+  }
+
+  if (session?.user) {
+    return session.user;
+  }
+
+  const { data, error } =
+    await supabaseClient.auth.signInAnonymously();
+
+  if (error) {
+    throw error;
+  }
+
+  return data.user;
+}
+
+/* 닉네임 등록 및 고유번호 발급 */
+async function savePlayerNickname(nickname) {
+  const name = nickname.trim();
+
+  if (name.length < 1 || name.length > 20) {
+    throw new Error('닉네임은 1~20자로 입력해주세요.');
+  }
+
+  await ensureAnonymousAuth();
+
+  const { data, error } = await supabaseClient.rpc(
+    'game3_save_nickname',
+    {
+      p_nickname: name
+    }
+  );
+
+  if (error) {
+    console.error('닉네임 저장 실패:', error);
+    throw new Error('닉네임 등록에 실패했습니다.');
+  }
+
+  if (!Array.isArray(data) || !data[0]) {
+    throw new Error('참가자 정보를 불러오지 못했습니다.');
+  }
+
+  return {
+    playerId: data[0].player_id,
+    nickname: data[0].nickname,
+    displayCode: data[0].display_code
+  };
+}
+  /* 참가자 등록 처리 */
+let currentPlayer = null;
+
+async function registerNickname(){
+  const input=$('nickname-input');
+  const button=$('nickname-submit');
+  const errorBox=$('nickname-error');
+
+  const nickname=input.value.trim();
+
+  errorBox.textContent='';
+
+  if(nickname.length<1 || nickname.length>20){
+    errorBox.textContent='닉네임은 1~20자로 입력해주세요.';
+    return;
+  }
+
+  button.disabled=true;
+  button.textContent='등록 중...';
+
+  try{
+    currentPlayer=await savePlayerNickname(nickname);
+
+$('player-display-code').textContent=
+  currentPlayer.displayCode;
+
+$('player-info').hidden=false;
+
+button.textContent='게임 규칙 확인하기';
+button.disabled=false;
+button.onclick=()=>showScreen('rules');
+  }catch(error){
+    errorBox.textContent=error.message;
+  }finally{
+    button.disabled=false;
+  }
+}
+  
 const DEFAULTS={
   album:'한국 앨범으로 한정',
   roundMode:'default',
@@ -659,7 +872,9 @@ function closeModal(apply=false){
   modalType=null;
   $('overlay').classList.remove('active');
 }
-function openRules(){showScreen('rules')}
+function openRules(){
+  showScreen('nickname-screen');
+}
 
 /* 사진 목록 */
 async function loadAlbums(){
@@ -715,6 +930,8 @@ async function startGame(){
   btn.disabled=true;
   btn.textContent='컨셉 포토 불러오는 중...';
   try{
+        await ensureAnonymousAuth();
+    
     albums=await loadAlbums();
     makeQuestions();
     currentIndex=0;
