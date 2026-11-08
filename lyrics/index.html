@@ -166,11 +166,11 @@ body.playing-stage .more-actions{margin-top:25px}
 .ready-instructions-title{display:block;font-size:clamp(22px,3.9vw,29px);font-weight:900;margin-bottom:22px}
 .ready-rules{display:flex;flex-direction:column;gap:4px;font-size:clamp(15px,2.7vw,20px);line-height:1.45;font-weight:800;letter-spacing:-.058em;word-break:keep-all}
 .ready-rules span{display:block}
-.ready-copy b{margin-top:27px;letter-spacing:-.06em}
+.ready-copy b{margin-top:16px;letter-spacing:-.06em}
 @media(max-width:560px){
   .ready-instructions-title{font-size:clamp(19px,5.4vw,25px);margin-bottom:16px}
   .ready-rules{font-size:clamp(12px,3.12vw,16px);line-height:1.43;gap:3px;letter-spacing:-.063em}
-  .ready-copy b{font-size:clamp(22px,5.5vw,28px);margin-top:24px}
+  .ready-copy b{font-size:clamp(22px,5.5vw,28px);margin-top:15px}
   .ready-card{padding-left:12px;padding-right:12px}
 }
 @media(max-width:375px){
@@ -190,9 +190,6 @@ body.playing-stage .more-actions{margin-top:25px}
     <span>1. 게임을 시작하면 가사가 보여집니다.</span>
     <span>2. 가사는 5초동안 보여지고, 이후 자동으로 가려집니다.</span>
     <span>3. 자동으로 가려지면 제한시간 내에 정답을 입력합니다.</span>
-    <span>4-1. 제한시간 내에 정답을 입력할 경우 526점!</span>
-    <span>4-2. 제한시간 내에 정답을 입력했는데 오답이면 214점!</span>
-    <span>4-3. 제한시간 내에 정답을 입력하지 못하면 0점!</span>
   </div>
   <b>시작 버튼을 누르면<br>게임이 자동으로 시작됩니다!</b>
 </div></section>
@@ -326,7 +323,7 @@ function startAnswer(){if(phase!=='thinking')return;phase='answer';deadline=ms()
 function normalize(s){return String(s||'').toLocaleLowerCase('en-US').replace(/\s+/gu,'')}
 function isCorrectTitle(value,title){const answer=normalize(value);const aliases=[title];if(title==='Ima -Even if the world ends tomorrow-')aliases.push('ima');if(title==='Call Call Call!')aliases.push('Call Call Call');if(title==='LOVE, MONEY, FAME')aliases.push('LOVE MONEY FAME');if(title==="Fallin' Flower")aliases.push('Fallin Flower','Maiochiruhanabira');return aliases.some(x=>normalize(x)===answer)}
 function submitAnswer(){if(phase!=='answer'||paused)return;if(ms()>=deadline){endRound(null,'timeout');return}const answer=answerField?.value??'';if(!answer.trim()){const note=$('input-note');if(note)note.textContent='곡 제목을 입력해 주세요!';return}endRound(answer,'submitted')}
-function endRound(answer,mode){if(!['answer','thinking'].includes(phase))return;const item=deck[roundIndex];const isCorrect=mode==='submitted'&&isCorrectTitle(answer,item.title),points=mode==='timeout'?0:isCorrect?526:214;clearClock();stopSound();if(isCorrect)correct++;score+=points;history.push({item,answer,mode,isCorrect,points});roundIndex++;phase='result';paused=null;stage('result');el.label.textContent='ROUND '+roundIndex+' / '+config.rounds;el.time.textContent='0초';drawModal('result',{keepFocus:true})}
+function endRound(answer,mode){if(!['answer','thinking'].includes(phase))return;const item=deck[roundIndex];const isCorrect=mode==='submitted'&&isCorrectTitle(answer,item.title),points=mode==='timeout'||!String(answer??'').trim()?0:isCorrect?10:2;clearClock();stopSound();if(isCorrect)correct++;score+=points;history.push({item,answer,mode,isCorrect,points});roundIndex++;phase='result';paused=null;stage('result');el.label.textContent='ROUND '+roundIndex+' / '+config.rounds;el.time.textContent='0초';drawModal('result',{keepFocus:true})}
 function nextAfterResult(){closeModal();if(roundIndex>=config.rounds){phase='finished';stage('finished');el.final.replaceChildren(showResultsStats(displayStats()));return}beginRound()}
 function pauseGame(){if(paused)return;const now=ms();paused={phase,remaining:phase==='thinking'?Math.max(0,thinkDeadline-now):phase==='answer'?Math.max(0,deadline-now):0};clearClock();freezeSound()}
 function resumeGame(){if(!paused)return;const p=paused;paused=null;if(p.phase==='thinking'){thinkDeadline=ms()+p.remaining;makeAudioReady();}else if(p.phase==='answer')deadline=ms()+p.remaining;if(p.phase==='answer'){drawModal('input');resumeMusicAfterPause()}scheduleClock()}
