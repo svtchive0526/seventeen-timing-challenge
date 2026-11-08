@@ -205,7 +205,7 @@ body.playing-stage .more-actions{margin-top:25px}
   </div>
   <b>시작 버튼을 누르면<br>게임이 자동으로 시작됩니다!</b>
 </div></section>
-<section id="game-card" class="game-card" hidden><div class="score-chips"><span>누적점수</span><span id="score-current">0점</span></div><div id="scrambled" class="scrambled" aria-live="polite"></div><p class="help">음원사이트에 등록된 정식 제목만 인정해요!<br>대문자/소문자/띄어쓰기는 상관없어요!</p></section>
+<section id="game-card" class="game-card" hidden><div class="score-chips"><span>누적점수</span><span id="score-current">0점</span></div><div id="scrambled" class="scrambled" aria-live="polite"></div><p class="help">대문자/소문자/띄어쓰기는 채점에 반영하지 않아요!</p></section>
 <section id="final-card" class="ready-card" hidden><div class="summary-stats" id="final-stats"></div></section>
 <button id="stage-main" class="stage-action" hidden type="button">준비됐다면 시작하기</button>
 <div class="more-actions" id="stage-actions" hidden><button id="back-settings" type="button">설정 화면으로 돌아가기</button><button id="quit-share" type="button" hidden>그만두고 결과 공유하기</button><button id="restart" type="button" hidden>처음부터 다시하기</button><a id="stage-home" href="../">메인화면으로 돌아가기</a></div>
@@ -226,7 +226,7 @@ const ms=()=>performance.now();
 function intBetween(a,b){return a+Math.floor(Math.random()*(b-a+1))}
 function songEligible(row){return settings.song==='all'||(settings.song==='adapted'&&row.cat!=='***')||(settings.song==='korean'&&row.cat==='*')}
 function fisherYates(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-function shuffleLyric(lyric){const chars=Array.from(lyric.replace(/\s+/gu,''));const original=chars.join('');let s=original;for(let n=0;n<8&&s===original;n++)s=fisherYates([...chars]).join('');return s}
+function shuffleLyric(lyric){const units=lyric.match(/[A-Za-z]+(?:['’][A-Za-z]+)*|[0-9]+|[^\s]/gu)||[];const original=units.join('');let mixed=units;for(let n=0;n<12&&mixed.join('')===original;n++)mixed=fisherYates([...units]);return mixed.map((unit,i)=>i>0&&/^[A-Za-z]/u.test(unit)&&/^[A-Za-z]/u.test(mixed[i-1])?' '+unit:unit).join('')}
 function createDeck(){const pool=SONGS.filter(songEligible),bySong=new Map();for(const item of pool){if(!bySong.has(item.title))bySong.set(item.title,[]);bySong.get(item.title).push(item)}const titles=fisherYates([...bySong.keys()]);return titles.slice(0,config.rounds).map(title=>{const selections=bySong.get(title);return selections[intBetween(0,selections.length-1)]})}
 function choice(label,selected,callback,extra=''){const b=document.createElement('button');b.type='button';b.className='choice '+extra;b.textContent=label;b.setAttribute('aria-pressed',String(selected));b.addEventListener('click',callback);return b}
 function drawModal(kind,{keepFocus=false}={}){if(!keepFocus)modalFocus=document.activeElement;modal=kind;el.overlay.hidden=false;document.body.classList.add('modal-open');renderModal();if(kind==='input')return;el.confirm.focus()}
@@ -334,8 +334,35 @@ function updateClock(){if(!['thinking','answer'].includes(phase)||paused)return;
 function scheduleClock(){clearClock();interval=setInterval(updateClock,60);updateClock()}
 function beginRound(){phase='thinking';paused=null;makeAudioReady();const r=deck[roundIndex];el.scrambled.textContent=shuffleLyric(r.lyric);stage('thinking');thinkDeadline=ms()+5000;el.toast.textContent='';scheduleClock();}
 function startAnswer(){if(phase!=='thinking')return;phase='answer';deadline=ms()+config.time*1000;stage('answer');drawModal('input');playSound();scheduleClock();}
-function normalize(s){return String(s||'').toLocaleLowerCase('en-US').replace(/\s+/gu,'')}
-function isCorrectTitle(value,title){const answer=normalize(value);const aliases=[title];if(title==='Ima -Even if the world ends tomorrow-')aliases.push('ima');if(title==='Call Call Call!')aliases.push('Call Call Call');if(title==='LOVE, MONEY, FAME')aliases.push('LOVE MONEY FAME');if(title==="Fallin' Flower")aliases.push('Fallin Flower','Maiochiruhanabira');return aliases.some(x=>normalize(x)===answer)}
+const TITLE_ALIASES={
+'아주 NICE':['아나스','아주나이스'],
+'울고 싶지 않아':['울싶않'],
+'Home':['홈'],
+'독 : Fear':['독'],
+'Left & Right':['랩라','랩앤라','래프트앤라이트'],
+'HOME;RUN':['홈런','HOMERUN'],
+'Ready to love':['레투럽','레디투럽','레디투러브'],
+'Rock with you':['락윗유','락위드유'],
+'HOT':['핫'],
+'_WORLD':['월드'],
+'F*ck My Life':['퍽마라'],
+'음악의 신':['음신'],
+'MAESTRO':['마에스트로'],
+'LOVE, MONEY, FAME':['럽머페','러브머니페임'],
+'THUNDER':['썬더'],
+'Call Call Call!':['콜콜콜'],
+'Happy Ending':['해피엔딩','해피 엔딩'],
+"Fallin' Flower":['폴린플라워','폴플','마이오치루하나비라'],
+'24H':['투포아'],
+'Not Alone':['낫얼론','히토리','히토리쟈나이','히쟈나'],
+'Power of Love':['파오럽','파워오브러브'],
+'DREAM':['드림'],
+'Ima -Even if the world ends tomorrow-':['이마','이마세카'],
+'Sara Sara':['사라사라'],
+'Shohikigen':['쇼히키겐','소비기한']
+};
+function normalize(s){return String(s||'').normalize('NFKC').toLocaleLowerCase('en-US').replace(/\s+/gu,'')}
+function isCorrectTitle(value,title){const answer=normalize(value);return [title,...(TITLE_ALIASES[title]||[])].some(x=>normalize(x)===answer)}
 function submitAnswer(){if(phase!=='answer'||paused)return;if(ms()>=deadline){endRound(null,'timeout');return}const answer=answerField?.value??'';if(!answer.trim()){const note=$('input-note');if(note)note.textContent='곡 제목을 입력해 주세요!';return}endRound(answer,'submitted')}
 function endRound(answer,mode){if(!['answer','thinking'].includes(phase))return;const item=deck[roundIndex];const isCorrect=mode==='submitted'&&isCorrectTitle(answer,item.title),points=mode==='timeout'||!String(answer??'').trim()?0:isCorrect?10:2;clearClock();stopSound();if(isCorrect)correct++;score+=points;history.push({item,answer,mode,isCorrect,points});roundIndex++;phase='result';paused=null;stage('result');el.label.textContent='ROUND '+roundIndex+' / '+config.rounds;el.time.textContent='0초';drawModal('result',{keepFocus:true})}
 function nextAfterResult(){closeModal();if(roundIndex>=config.rounds){phase='finished';stage('finished');el.final.replaceChildren(showResultsStats(displayStats()));return}beginRound()}
