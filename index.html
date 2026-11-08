@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ko">
 <head>
@@ -5,100 +6,508 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#e5cacc">
 <title>군백기를 기다리는 미니게임 | SVTCHIVE</title>
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+
 <style>
-:root{font-family:Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:#39232d;font-synthesis:none}
+:root{
+  font-family:Pretendard,-apple-system,BlinkMacSystemFont,
+  "Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  color:#39232d;
+  font-synthesis:none;
+}
 *{box-sizing:border-box}
 html{background:#cdd5e5;min-height:100%}
-body{margin:0;min-height:100svh;background:linear-gradient(169deg,#e7c9ca 0%,#e2cdd1 34%,#d9d0dc 68%,#ccd5e7 100%);background-attachment:fixed}
-button,a{font:inherit;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+body{
+  margin:0;
+  min-height:100svh;
+  background:linear-gradient(
+    169deg,
+    #e7c9ca 0%,
+    #e2cdd1 34%,
+    #d9d0dc 68%,
+    #ccd5e7 100%
+  );
+  background-attachment:fixed;
+}
+button,a{
+  font:inherit;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
 button{cursor:pointer}
-button:focus-visible,a:focus-visible{outline:3px solid #625b98;outline-offset:4px}
-.shell{width:min(100%,780px);min-height:100svh;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:clamp(65px,8vw,139px) 24px 72px}
-header{text-align:center;width:100%;margin-bottom:clamp(74px,13vw,126px)}
-.eyebrow{font-size:clamp(20px,3.8vw,35px);color:#ca989f;font-weight:800;letter-spacing:-.057em;margin:0 0 9px}
-h1{font-size:clamp(28px,6.4vw,53px);color:#805263;font-weight:900;letter-spacing:-.08em;line-height:1.17;margin:0;white-space:nowrap}
-.subtitle{font-size:clamp(15px,2.7vw,23px);color:#cb999f;font-weight:750;letter-spacing:-.05em;line-height:1.35;margin:26px 0 0}
-.content{width:100%;max-width:576px;position:relative}
-.game{min-height:576px;padding:57px 44px 54px;background:rgba(125,119,132,.14);border-radius:25px;text-align:center;display:flex;flex-direction:column;align-items:center}
-.small{font-size:clamp(16px,2.9vw,23px);font-weight:800;color:#a7808d;margin:0 0 14px;letter-spacing:-.04em}
-.pill{border-radius:100px;background:#fff;color:#a78594;padding:9px 32px;min-width:136px;font-size:clamp(18px,3vw,25px);font-weight:850;line-height:1.2;letter-spacing:-.05em}
-.game-middle{margin:auto 0;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;padding:32px 0 36px}
-.current{color:#92514f;font-weight:850;font-size:clamp(16px,2.9vw,24px);margin:0 0 25px;letter-spacing:-.05em}
-.game-title{font-size:clamp(35px,7.5vw,58px);line-height:1.12;font-weight:900;letter-spacing:-.083em;margin:0;color:#37212b;white-space:nowrap}
-.game-desc{color:#855250;font-size:clamp(13px,2vw,17px);margin:26px 0 0;font-weight:650;letter-spacing:-.045em}
-.play{width:100%;min-height:94px;border:4px solid rgba(123,100,120,.43);border-radius:21px;background:#fff;color:#7770a7;font-size:clamp(25px,5vw,42px);font-weight:900;letter-spacing:-.07em;text-decoration:none;display:flex;align-items:center;justify-content:center}
-.play:hover:not([aria-disabled="true"]){background:#f9f8fc}
-.play[aria-disabled="true"]{background:rgba(255,255,255,.54);color:#bfb8c5;border-color:rgba(123,100,120,.24);pointer-events:none;cursor:default}
-.game-choice-row{display:grid;grid-template-columns:48px minmax(0,1fr) 48px;align-items:center;column-gap:12px;width:100%;min-width:0}
-.game-choice-row .game-title{min-width:0;max-width:100%}
-.arrow{border:0;background:transparent;color:#a68185;display:grid;place-items:center;width:48px;min-height:58px;padding:0;position:static;transform:none}
-.arrow svg{width:30px;height:46px;display:block}
-.arrow:disabled{opacity:.25;cursor:default}
-.arrow:not(:disabled):active{transform:scale(.9)}
-.description-title{margin-top:39px;min-height:81px;border-radius:25px;background:rgba(113,111,128,.14);display:grid;place-items:center;font-size:clamp(21px,3.6vw,29px);font-weight:900;color:#60618f;letter-spacing:-.07em}
-.description-body{margin-top:8px;min-height:241px;padding:34px 20px;display:grid;place-items:center;background:rgba(255,255,255,.25);border-radius:25px;text-align:center;font-size:clamp(15px,2.7vw,21px);font-weight:620;letter-spacing:-.055em;line-height:1.58;color:#51464d}
+button:focus-visible,a:focus-visible{
+  outline:3px solid #625b98;
+  outline-offset:4px;
+}
+.shell{
+  width:min(100%,780px);
+  min-height:100svh;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:clamp(65px,8vw,139px) 24px 72px;
+}
+header{
+  text-align:center;
+  width:100%;
+  margin-bottom:clamp(74px,13vw,126px);
+}
+.eyebrow{
+  font-size:clamp(20px,3.8vw,35px);
+  color:#ca989f;
+  font-weight:800;
+  letter-spacing:-.057em;
+  margin:0 0 9px;
+}
+h1{
+  font-size:clamp(28px,6.4vw,53px);
+  color:#805263;
+  font-weight:900;
+  letter-spacing:-.08em;
+  line-height:1.17;
+  margin:0;
+  white-space:nowrap;
+}
+.subtitle{
+  font-size:clamp(15px,2.7vw,23px);
+  color:#cb999f;
+  font-weight:750;
+  letter-spacing:-.05em;
+  line-height:1.35;
+  margin:26px 0 0;
+}
+.content{
+  width:100%;
+  max-width:576px;
+  position:relative;
+}
+.game{
+  min-height:576px;
+  padding:57px 44px 54px;
+  background:rgba(125,119,132,.14);
+  border-radius:25px;
+  text-align:center;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+.small{
+  font-size:clamp(16px,2.9vw,23px);
+  font-weight:800;
+  color:#a7808d;
+  margin:0 0 14px;
+  letter-spacing:-.04em;
+}
+.pill{
+  border-radius:100px;
+  background:#fff;
+  color:#a78594;
+  padding:9px 32px;
+  min-width:136px;
+  font-size:clamp(18px,3vw,25px);
+  font-weight:850;
+  line-height:1.2;
+  letter-spacing:-.05em;
+}
+.game-middle{
+  margin:auto 0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  padding:32px 0 36px;
+}
+.current{
+  color:#92514f;
+  font-weight:850;
+  font-size:clamp(16px,2.9vw,24px);
+  margin:0 0 25px;
+  letter-spacing:-.05em;
+}
+.game-title{
+  font-size:clamp(35px,7.5vw,58px);
+  line-height:1.12;
+  font-weight:900;
+  letter-spacing:-.083em;
+  margin:0;
+  color:#37212b;
+  white-space:nowrap;
+}
+.game-desc{
+  color:#855250;
+  font-size:clamp(13px,2vw,17px);
+  margin:26px 0 0;
+  font-weight:650;
+  letter-spacing:-.045em;
+}
+.play{
+  width:100%;
+  min-height:94px;
+  border:4px solid rgba(123,100,120,.43);
+  border-radius:21px;
+  background:#fff;
+  color:#7770a7;
+  font-size:clamp(25px,5vw,42px);
+  font-weight:900;
+  letter-spacing:-.07em;
+  text-decoration:none;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.play:hover:not([aria-disabled="true"]){
+  background:#f9f8fc;
+}
+.play[aria-disabled="true"]{
+  background:rgba(255,255,255,.54);
+  color:#bfb8c5;
+  border-color:rgba(123,100,120,.24);
+  pointer-events:none;
+  cursor:default;
+}
+.game-choice-row{
+  display:grid;
+  grid-template-columns:48px minmax(0,1fr) 48px;
+  align-items:center;
+  column-gap:12px;
+  width:100%;
+  min-width:0;
+}
+.game-choice-row .game-title{
+  min-width:0;
+  max-width:100%;
+}
+.arrow{
+  border:0;
+  background:transparent;
+  color:#a68185;
+  display:grid;
+  place-items:center;
+  width:48px;
+  min-height:58px;
+  padding:0;
+  position:static;
+  transform:none;
+}
+.arrow svg{
+  width:30px;
+  height:46px;
+  display:block;
+}
+.arrow:disabled{
+  opacity:.25;
+  cursor:default;
+}
+.arrow:not(:disabled):active{
+  transform:scale(.9);
+}
+.description-title{
+  margin-top:39px;
+  min-height:81px;
+  border-radius:25px;
+  background:rgba(113,111,128,.14);
+  display:grid;
+  place-items:center;
+  font-size:clamp(21px,3.6vw,29px);
+  font-weight:900;
+  color:#60618f;
+  letter-spacing:-.07em;
+}
+.description-body{
+  margin-top:8px;
+  min-height:241px;
+  padding:34px 20px;
+  display:grid;
+  place-items:center;
+  background:rgba(255,255,255,.25);
+  border-radius:25px;
+  text-align:center;
+  font-size:clamp(15px,2.7vw,21px);
+  font-weight:620;
+  letter-spacing:-.055em;
+  line-height:1.58;
+  color:#51464d;
+}
 .description-body p{margin:0}
-footer{margin-top:auto;padding-top:135px;color:#a6a2b4;font-size:16px;text-align:center;font-weight:600;letter-spacing:-.04em}
-@media(max-width:760px){.content{padding:0 34px}.game-choice-row{grid-template-columns:34px minmax(0,1fr) 34px;column-gap:10px}.arrow{width:34px;min-height:48px}.arrow svg{width:25px;height:38px}.game{padding:40px 28px;min-height:490px}}
-@media(max-width:560px){.shell{padding:63px 17px 40px}header{margin-bottom:64px}.eyebrow{font-size:clamp(17px,5vw,23px)}h1{font-size:clamp(25px,6.6vw,36px)}.subtitle{font-size:clamp(12px,3.25vw,17px);margin-top:22px}.content{padding:0 34px}.game-choice-row{grid-template-columns:22px minmax(0,1fr) 22px;column-gap:6px}.arrow{width:22px;min-height:44px}.arrow svg{width:17px;height:29px}.game{min-height:370px;padding:30px 18px 25px;border-radius:21px}.small{font-size:16px;margin-bottom:11px}.pill{font-size:18px;padding:7px 17px;min-width:90px}.game-middle{padding:29px 0 24px}.current{font-size:16px;margin-bottom:17px}.game-title{font-size:clamp(24px,7.3vw,40px)}.game-desc{margin-top:17px;font-size:clamp(11px,3vw,15px)}.play{min-height:69px;border-width:3px;border-radius:16px;font-size:clamp(21px,6vw,32px)}.description-title{margin-top:23px;min-height:63px;border-radius:19px;font-size:23px}.description-body{min-height:178px;border-radius:19px;padding:24px 15px;font-size:clamp(12px,3.25vw,16px)}footer{padding-top:96px;font-size:12px}}
-@media(max-width:355px){.shell{padding-left:11px;padding-right:11px}.content{padding:0 24px}.game{padding-left:10px;padding-right:10px}.game-title{font-size:clamp(21px,7vw,27px)}.game-choice-row{grid-template-columns:19px minmax(0,1fr) 19px;column-gap:5px}.arrow{width:19px}.arrow svg{width:15px;height:26px}.description-body{font-size:12px}}
-@media(prefers-reduced-motion:no-preference){.arrow:not(:disabled),.play:not([aria-disabled="true"]){transition:opacity .15s,background .15s}}
+footer{
+  margin-top:auto;
+  padding-top:135px;
+  color:#a6a2b4;
+  font-size:16px;
+  text-align:center;
+  font-weight:600;
+  letter-spacing:-.04em;
+}
+
+/* 3번 게임부터 자간 -4% */
+.game[data-game="3"] .small,
+.game[data-game="3"] .pill,
+.game[data-game="3"] .current,
+.game[data-game="3"] .game-title,
+.game[data-game="3"] .game-desc,
+.game[data-game="3"] .play{
+  letter-spacing:-.04em;
+}
+
+@media(max-width:760px){
+  .content{padding:0 34px}
+  .game-choice-row{
+    grid-template-columns:34px minmax(0,1fr) 34px;
+    column-gap:10px;
+  }
+  .arrow{width:34px;min-height:48px}
+  .arrow svg{width:25px;height:38px}
+  .game{padding:40px 28px;min-height:490px}
+}
+@media(max-width:560px){
+  .shell{padding:63px 17px 40px}
+  header{margin-bottom:64px}
+  .eyebrow{font-size:clamp(17px,5vw,23px)}
+  h1{font-size:clamp(25px,6.6vw,36px)}
+  .subtitle{
+    font-size:clamp(12px,3.25vw,17px);
+    margin-top:22px;
+  }
+  .content{padding:0 34px}
+  .game-choice-row{
+    grid-template-columns:22px minmax(0,1fr) 22px;
+    column-gap:6px;
+  }
+  .arrow{width:22px;min-height:44px}
+  .arrow svg{width:17px;height:29px}
+  .game{
+    min-height:370px;
+    padding:30px 18px 25px;
+    border-radius:21px;
+  }
+  .small{font-size:16px;margin-bottom:11px}
+  .pill{
+    font-size:18px;
+    padding:7px 17px;
+    min-width:90px;
+  }
+  .game-middle{padding:29px 0 24px}
+  .current{font-size:16px;margin-bottom:17px}
+  .game-title{font-size:clamp(24px,7.3vw,40px)}
+  .game-desc{
+    margin-top:17px;
+    font-size:clamp(11px,3vw,15px);
+  }
+  .play{
+    min-height:69px;
+    border-width:3px;
+    border-radius:16px;
+    font-size:clamp(21px,6vw,32px);
+  }
+  .description-title{
+    margin-top:23px;
+    min-height:63px;
+    border-radius:19px;
+    font-size:23px;
+  }
+  .description-body{
+    min-height:178px;
+    border-radius:19px;
+    padding:24px 15px;
+    font-size:clamp(12px,3.25vw,16px);
+  }
+  footer{padding-top:96px;font-size:12px}
+}
+@media(max-width:355px){
+  .shell{padding-left:11px;padding-right:11px}
+  .content{padding:0 24px}
+  .game{padding-left:10px;padding-right:10px}
+  .game-title{font-size:clamp(21px,7vw,27px)}
+  .game-choice-row{
+    grid-template-columns:19px minmax(0,1fr) 19px;
+    column-gap:5px;
+  }
+  .arrow{width:19px}
+  .arrow svg{width:15px;height:26px}
+  .description-body{font-size:12px}
+}
+@media(prefers-reduced-motion:no-preference){
+  .arrow:not(:disabled),
+  .play:not([aria-disabled="true"]){
+    transition:opacity .15s,background .15s;
+  }
+}
 </style>
 </head>
+
 <body>
 <main class="shell">
+
 <header>
-<p class="eyebrow">2026년 셉카이브 연말 콘텐츠</p>
-<h1>군백기를 기다리는 미니게임</h1>
-<p class="subtitle">앞으로도 다양한 기능이 추가될 사이트입니다!<br>현재 배포된 게임들을 먼저 즐기며 함께 기다려봐요</p>
+  <p class="eyebrow">2026년 셉카이브 연말 콘텐츠</p>
+  <h1>군백기를 기다리는 미니게임</h1>
+  <p class="subtitle">
+    앞으로도 다양한 기능이 추가될 사이트입니다!<br>
+    현재 배포된 게임들을 먼저 즐기며 함께 기다려봐요
+  </p>
 </header>
+
 <div class="content">
-<section class="game" aria-label="미니게임 선택">
- <div class="small">미니게임</div>
- <div class="pill" id="page-number">1 / 13</div>
- <div class="game-middle">
-  <p class="current">현재 게임은?</p>
-  <div class="game-choice-row">
-   <button class="arrow left" id="previous" type="button" aria-label="이전 미니게임" disabled>
-    <svg viewBox="0 0 36 56" fill="none" aria-hidden="true"><path d="M30 5L6 28L30 51" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-   </button>
-   <h2 class="game-title" id="game-title">타이밍 챌린지</h2>
-   <button class="arrow right" id="next" type="button" aria-label="다음 미니게임">
-    <svg viewBox="0 0 36 56" fill="none" aria-hidden="true"><path d="M6 5L30 28L6 51" stroke="currentColor" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-   </button>
+  <section class="game" id="game-card" aria-label="미니게임 선택">
+    <div class="small">미니게임</div>
+    <div class="pill" id="page-number">1 / 13</div>
+
+    <div class="game-middle">
+      <p class="current">현재 게임은?</p>
+
+      <div class="game-choice-row">
+        <button class="arrow left" id="previous"
+                type="button" aria-label="이전 미니게임" disabled>
+          <svg viewBox="0 0 36 56" fill="none" aria-hidden="true">
+            <path d="M30 5L6 28L30 51"
+                  stroke="currentColor"
+                  stroke-width="7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <h2 class="game-title" id="game-title">
+          타이밍 챌린지
+        </h2>
+
+        <button class="arrow right" id="next"
+                type="button" aria-label="다음 미니게임">
+          <svg viewBox="0 0 36 56" fill="none" aria-hidden="true">
+            <path d="M6 5L30 28L6 51"
+                  stroke="currentColor"
+                  stroke-width="7"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <p class="game-desc" id="game-desc">
+        목표된 시간에 맞춰 정확하게 버튼을 눌러라!
+      </p>
+    </div>
+
+    <a class="play" id="play" href="./timing/">
+      게임 시작
+    </a>
+  </section>
+
+  <div class="description-title">게임설명</div>
+
+  <div class="description-body" id="details">
+    <p>
+      13라운드로 구성되어 있으며, 16가지 라운드 중 랜덤 노출됩니다.<br>
+      제시된 초에 맞춰 정확하게 버튼을 눌러야 하는 게임입니다!<br>
+      내 점수는 몇 점인지 캐럿들과 함께 공유하며 즐겨보세요!
+    </p>
   </div>
-  <p class="game-desc" id="game-desc">목표된 시간에 맞춰 정확하게 버튼을 눌러라!</p>
- </div>
- <a class="play" id="play" href="./timing/">게임 시작</a>
-</section>
-<div class="description-title">게임설명</div>
-<div class="description-body" id="details"><p>13라운드로 구성되어 있으며, 16가지 라운드 중 랜덤 노출됩니다.<br>제시된 초에 맞춰 정확하게 버튼을 눌러야 하는 게임입니다!<br>내 점수는 몇 점인지 캐럿들과 함께 공유하며 즐겨보세요!</p></div>
 </div>
+
 <footer>SVTCHIVE @SVTCHIVE0526</footer>
+
 </main>
+
 <script>
-(function(){'use strict';
- const max=13;
- let current=1;
- const $=(id)=>document.getElementById(id);
- const page=$('page-number'),title=$('game-title'),desc=$('game-desc'),details=$('details'),play=$('play'),prev=$('previous'),next=$('next');
- const availableDetails='13라운드로 구성되어 있으며, 16가지 라운드 중 랜덤 노출됩니다.<br>제시된 초에 맞춰 정확하게 버튼을 눌러야 하는 게임입니다!<br>내 점수는 몇 점인지 캐럿들과 함께 공유하며 즐겨보세요!';
- function render(){
-  const ready=current===1;
-  page.textContent=current+' / '+max;
-  title.textContent=current===1?'타이밍 챌린지':current===2?'제목 알아내기':'준비중!';
-  desc.textContent=current===1?'목표된 시간에 맞춰 정확하게 버튼을 눌러라!':current===2?'랜덤 배치된 가사를 보고 곡 제목을 알아내자!':'아직 구현되지 않았어요!';
-  details.innerHTML=current===1?'<p>'+availableDetails+'</p>':current===2?'<p>타이틀곡 가사가 랜덤으로 배치되어 있다?<br>랜덤으로 배치된 가사 속에서 곡 제목을 알아내자!<br>나는 얼마나 세븐틴 곡 가사를 자세히 알고 있을까?</p>':'<p>현재 준비중인 게임입니다!<br>어떤 게임이 수록될까요?</p>';
-  play.textContent=current<=2?'게임 시작':'조금만 더 기다려주세요!';
-  if(current<=2){play.href=current===1?'./timing/':'./lyrics/';play.removeAttribute('aria-disabled');play.tabIndex=0}
-  else{play.removeAttribute('href');play.setAttribute('aria-disabled','true');play.tabIndex=-1}
-  prev.disabled=current===1;
-  next.disabled=current===max;
- }
- prev.addEventListener('click',()=>{if(current>1){current--;render()}});
- next.addEventListener('click',()=>{if(current<max){current++;render()}});
- render();
+(function(){
+  'use strict';
+
+  const max=13;
+  let current=1;
+
+  const $=(id)=>document.getElementById(id);
+
+  const page=$('page-number');
+  const title=$('game-title');
+  const desc=$('game-desc');
+  const details=$('details');
+  const play=$('play');
+  const prev=$('previous');
+  const next=$('next');
+  const card=$('game-card');
+
+  const games={
+    1:{
+      title:'타이밍 챌린지',
+      description:'목표된 시간에 맞춰 정확하게 버튼을 눌러라!',
+      details:
+        '13라운드로 구성되어 있으며, 16가지 라운드 중 랜덤 노출됩니다.<br>'+
+        '제시된 초에 맞춰 정확하게 버튼을 눌러야 하는 게임입니다!<br>'+
+        '내 점수는 몇 점인지 캐럿들과 함께 공유하며 즐겨보세요!',
+      url:'./timing/'
+    },
+
+    2:{
+      title:'제목 알아내기',
+      description:'랜덤 배치된 가사를 보고 곡 제목을 알아내자!',
+      details:
+        '타이틀곡 가사가 랜덤으로 배치되어 있다?<br>'+
+        '랜덤으로 배치된 가사 속에서 곡 제목을 알아내자!<br>'+
+        '나는 얼마나 세븐틴 곡 가사를 자세히 알고 있을까?',
+      url:'./lyrics/'
+    },
+
+    3:{
+      title:'언제일까?',
+      description:'앨범 컨포를 보고 어느 앨범인지 알아내자!',
+      details:
+        '컴백 때마다 마주하던 컨셉 포토, 그냥 보기만 했나요?<br>'+
+        '어느 앨범인지 매치하는 “언제일까?” 게임.<br>'+
+        '매치하면서 추억도 한 번씩 더 떠올리는 기회가 되길!',
+      url:'./game3/'
+    }
+  };
+
+  function render(){
+    const game=games[current];
+
+    page.textContent=current+' / '+max;
+    card.dataset.game=String(current);
+
+    if(game){
+      title.textContent=game.title;
+      desc.textContent=game.description;
+      details.innerHTML='<p>'+game.details+'</p>';
+
+      play.textContent='게임 시작';
+      play.href=game.url;
+      play.removeAttribute('aria-disabled');
+      play.tabIndex=0;
+    }else{
+      title.textContent='준비중!';
+      desc.textContent='아직 구현되지 않았어요!';
+      details.innerHTML=
+        '<p>현재 준비중인 게임입니다!<br>'+
+        '어떤 게임이 수록될까요?</p>';
+
+      play.textContent='조금만 더 기다려주세요!';
+      play.removeAttribute('href');
+      play.setAttribute('aria-disabled','true');
+      play.tabIndex=-1;
+    }
+
+    prev.disabled=current===1;
+    next.disabled=current===max;
+  }
+
+  prev.addEventListener('click',()=>{
+    if(current>1){
+      current--;
+      render();
+    }
+  });
+
+  next.addEventListener('click',()=>{
+    if(current<max){
+      current++;
+      render();
+    }
+  });
+
+  render();
 })();
 </script>
 </body>
