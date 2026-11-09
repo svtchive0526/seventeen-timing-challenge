@@ -103,33 +103,59 @@ async function loadLeaderboard(type='basic'){
   currentRankingType=type;
   $('tab-basic').classList.toggle('selected',type==='basic');
   $('tab-free').classList.toggle('selected',type==='free');
-  $('rank-description').textContent=type==='basic'?'기본 설정 · 13라운드 · 20초':'자유 설정 · 지정/랜덤 라운드';
+  $('rank-description').textContent=type==='basic'
+    ? '기본 설정 · 13라운드 · 20초'
+    : '자유 설정 · 지정/랜덤 라운드';
+
   const box=$('rank-list');
   box.replaceChildren();
-  const loading=document.createElement('p');loading.className='rank-empty';loading.textContent='순위표를 불러오는 중...';box.appendChild(loading);
+  const loading=document.createElement('p');
+  loading.className='rank-empty';
+  loading.textContent='순위표를 불러오는 중...';
+  box.appendChild(loading);
   $('rank-error').textContent='';
+
   try{
     const c=await getClient();
-    const {data,error}=await c.from('game3_scores')
-      .select('player_id,score,rounds_played,game3_players(nickname,display_code)')
-      .eq('ranking_type',type).order('score',{ascending:false}).limit(100);
+    const {data,error}=await c.rpc('game3_get_leaderboard',{
+      p_ranking_type:type
+    });
     if(error)throw error;
+
     box.replaceChildren();
-    if(!data?.length){const empty=document.createElement('p');empty.className='rank-empty';empty.textContent='표시할 순위 데이터가 아직 없습니다.';box.appendChild(empty);return}
+    if(!Array.isArray(data)||data.length===0){
+      const empty=document.createElement('p');
+      empty.className='rank-empty';
+      empty.textContent='표시할 순위 데이터가 아직 없습니다.';
+      box.appendChild(empty);
+      return;
+    }
+
     data.forEach((item,index)=>{
-      const row=document.createElement('div');row.className='rank-row';
-      const player=Array.isArray(item.game3_players)?item.game3_players[0]:item.game3_players;
-      const name=player?.nickname||'비공개 참가자';
-      const code=player?.display_code?' #'+player.display_code:'';
-      const rank=document.createElement('span');rank.textContent=(index+1)+'위';
-      const nick=document.createElement('span');nick.textContent=name+code;
-      const score=document.createElement('strong');score.textContent=Number(item.score||0).toLocaleString('ko-KR')+'점';
-      row.append(rank,nick,score);box.appendChild(row);
+      const row=document.createElement('div');
+      row.className='rank-row';
+
+      const rank=document.createElement('span');
+      rank.textContent=(item.rank_position??index+1)+'위';
+
+      const nickname=document.createElement('span');
+      nickname.textContent=String(item.nickname||'이름 없는 참가자')
+        +(item.display_code?' #'+item.display_code:'');
+
+      const score=document.createElement('strong');
+      score.textContent=Number(item.total_score||0)
+        .toLocaleString('ko-KR')+'점';
+
+      row.append(rank,nickname,score);
+      box.appendChild(row);
     });
   }catch(e){
     box.replaceChildren();
-    const msg=document.createElement('p');msg.className='rank-empty';msg.textContent='순위표를 불러오지 못했습니다.';box.appendChild(msg);
-    $('rank-error').textContent='순위표 조회 권한 또는 테이블 관계를 확인해 주세요: '+e.message;
+    const msg=document.createElement('p');
+    msg.className='rank-empty';
+    msg.textContent='순위표를 불러오지 못했습니다.';
+    box.appendChild(msg);
+    $('rank-error').textContent='순위표 조회 실패: '+(e?.message||String(e));
   }
 }
 </script></body></html>
